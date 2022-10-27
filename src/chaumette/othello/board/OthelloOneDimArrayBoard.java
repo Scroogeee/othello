@@ -2,10 +2,11 @@
  * @author scrooge
  */
 
-package chaumette.othello.datastructures;
+package chaumette.othello.board;
 
 import chaumette.othello.external.Move;
 import chaumette.othello.util.InvalidMoveException;
+import chaumette.othello.util.PlayerColor;
 
 /**
  * The implementation of an othello board via a one-dimensional array
@@ -17,7 +18,7 @@ public class OthelloOneDimArrayBoard extends OthelloBoard {
 	 * Cell [x, y] is at array position [x * xSize + y]
 	 * x and y are counted from 0
 	 */
-	private final CellStatus[] data;
+	private final PlayerColor[] data;
 
 	/**
 	 * Constructs a new OthelloBoard with specified x and y sizes
@@ -25,7 +26,7 @@ public class OthelloOneDimArrayBoard extends OthelloBoard {
 	 */
 	public OthelloOneDimArrayBoard(int xSize, int ySize) {
 		super(xSize, ySize);
-		data = new CellStatus[xSize * ySize];
+		data = new PlayerColor[xSize * ySize];
 	}
 
 	@Override
@@ -34,7 +35,7 @@ public class OthelloOneDimArrayBoard extends OthelloBoard {
 	}
 
 	@Override
-	public void doMove(Move m, CellStatus c) {
+	public void doMove(Move m, PlayerColor c) {
 		//TODO then check for winning condition
 		if (isValidMove(m, c)) {
 			data[m.x * xSize + m.y] = c;
@@ -45,19 +46,19 @@ public class OthelloOneDimArrayBoard extends OthelloBoard {
 	}
 
 	@Override
-	protected boolean isValidMove(Move m, CellStatus c) {
+	protected boolean isValidMove(Move m, PlayerColor c) {
 		//TODO check for move validity
 		return false;
 	}
 
 	@Override
-	protected void computeSideEffects(Move m, CellStatus c) {
+	protected void computeSideEffects(Move m, PlayerColor c) {
 		//TODO compute the side effects
 	}
 
 	@Override
-	public CellStatus[][] getBoardAsTwoDimArray() {
-		CellStatus[][] toReturn = new CellStatus[xSize][ySize];
+	public PlayerColor[][] getBoardAsTwoDimArray() {
+		PlayerColor[][] toReturn = new PlayerColor[xSize][ySize];
 		for (int i = 0; i < xSize; i++) {
 			if (ySize >= 0) {
 				System.arraycopy(data, i * xSize, toReturn[i], 0, ySize);

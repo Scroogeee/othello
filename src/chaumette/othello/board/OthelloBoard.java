@@ -2,9 +2,10 @@
  * @author scrooge
  */
 
-package chaumette.othello.datastructures;
+package chaumette.othello.board;
 
 import chaumette.othello.external.Move;
+import chaumette.othello.util.PlayerColor;
 
 /**
  * Represents an othello board as a data structure
@@ -40,20 +41,20 @@ public abstract class OthelloBoard {
 	 *
 	 * @return if the given Move could be successfully executed
 	 */
-	public abstract void doMove(Move m, CellStatus c);
+	public abstract void doMove(Move m, PlayerColor c);
 
 	/**
 	 * Used to check whether a move is valid
 	 */
-	protected abstract boolean isValidMove(Move m, CellStatus c);
+	protected abstract boolean isValidMove(Move m, PlayerColor c);
 
 	/**
 	 * Used to compute side effects (aka flipping of other stones)
 	 */
-	protected abstract void computeSideEffects(Move m, CellStatus c);
+	protected abstract void computeSideEffects(Move m, PlayerColor c);
 
 	/**
 	 * Returns the board as a two-dimensional array
 	 */
-	public abstract CellStatus[][] getBoardAsTwoDimArray();
+	public abstract PlayerColor[][] getBoardAsTwoDimArray();
 }

@@ -1,6 +1,5 @@
 package chaumette.othello.util;
 
-import chaumette.othello.datastructures.CellStatus;
 import chaumette.othello.external.Move;
 
 /**
@@ -12,5 +11,15 @@ public interface OthelloGameAPI {
 	 * Sends a request to do a certain move
 	 * Returns if the request was successful
 	 */
-	boolean requestMove(Move move, CellStatus c);
+	boolean requestMove(Move move, PlayerColor c);
+
+	/**
+	 * Sends a request to restart the game
+	 */
+	void onRestart();
+
+	/**
+	 * Sends a request to return the current player as a CellStatus
+	 */
+	PlayerColor getCurrentPlayer();
 }

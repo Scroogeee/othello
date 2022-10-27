@@ -1,10 +1,10 @@
 package chaumette.othello;
 
-import chaumette.othello.datastructures.CellStatus;
-import chaumette.othello.datastructures.OthelloBoard;
+import chaumette.othello.board.OthelloBoard;
 import chaumette.othello.external.Move;
-import chaumette.othello.gui.OthelloGUI;
+import chaumette.othello.gui.OthelloCmdLineGUI;
 import chaumette.othello.util.OthelloGameAPI;
+import chaumette.othello.util.PlayerColor;
 import javafx.application.Application;
 import javafx.stage.Stage;
 
@@ -13,7 +13,7 @@ public class OthelloMain extends Application implements OthelloGameAPI {
 	/**
 	 * Stores the current plyer (starting with black)
 	 */
-	private final CellStatus currentPlayer = CellStatus.BLACK;
+	private final PlayerColor currentPlayer = PlayerColor.BLACK;
 
 	/**
 	 * Contains the game's data
@@ -23,7 +23,7 @@ public class OthelloMain extends Application implements OthelloGameAPI {
 	/**
 	 * Contains all code for graphics
 	 */
-	private OthelloGUI theGUI;
+	private OthelloCmdLineGUI theGUI;
 
 	public static void main(String[] args) {
 		System.out.println("Hello othello!");
@@ -32,11 +32,24 @@ public class OthelloMain extends Application implements OthelloGameAPI {
 
 	@Override
 	public void start(Stage primaryStage) {
-
+		theGUI = new OthelloCmdLineGUI(primaryStage, this);
+		theGUI.initUI();
 	}
 
 	@Override
-	public boolean requestMove(Move move, CellStatus c) {
+	public boolean requestMove(Move move, PlayerColor c) {
+		//TODO implement
 		return false;
+	}
+
+	@Override
+	public void onRestart() {
+		//TODO implement restart
+	}
+
+	@Override
+	public PlayerColor getCurrentPlayer() {
+		//TODO implement
+		return PlayerColor.EMPTY;
 	}
 }
