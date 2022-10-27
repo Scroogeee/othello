@@ -34,6 +34,10 @@ public class OthelloOneDimArrayBoard extends OthelloBoard {
 	@Override
 	public void init() {
 		Arrays.fill(data, PlayerColor.EMPTY);
+		data[(xSize / 2 - 1) * xSize + ySize / 2 - 1] = PlayerColor.WHITE;
+		data[(xSize / 2) * xSize + (ySize / 2)] = PlayerColor.WHITE;
+		data[(xSize / 2) * xSize + ySize / 2 - 1] = PlayerColor.BLACK;
+		data[(xSize / 2 - 1) * xSize + (ySize / 2)] = PlayerColor.BLACK;
 	}
 
 	@Override
