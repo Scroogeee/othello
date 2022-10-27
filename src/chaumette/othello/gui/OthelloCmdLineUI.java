@@ -14,9 +14,9 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
-public class OthelloCmdLineGUI extends OthelloUI {
+public class OthelloCmdLineUI extends OthelloUI {
 
-	public OthelloCmdLineGUI(Stage primaryStage, OthelloGameAPI gameReference) {
+	public OthelloCmdLineUI(Stage primaryStage, OthelloGameAPI gameReference) {
 		super(primaryStage, gameReference);
 	}
 
@@ -35,9 +35,10 @@ public class OthelloCmdLineGUI extends OthelloUI {
 		userInputField.setPromptText("Enter command");
 		userInputField.addEventHandler(KeyEvent.KEY_PRESSED, event -> {
 			if (event.getCode() == KeyCode.ENTER) {
-				logArea.appendText(userInputField.getText() + "\n");
+				String command = userInputField.getText();
 				userInputField.setText("");
-				//TODO send command
+				logArea.appendText(command + "\n");
+				interpretCommand(command);
 			}
 		});
 		mainPane.setBottom(userInputField);
@@ -48,5 +49,12 @@ public class OthelloCmdLineGUI extends OthelloUI {
 		primaryScene = new Scene(mainPane);
 		theStage.setScene(primaryScene);
 		theStage.show();
+	}
+
+	private void interpretCommand(String s) {
+		switch (s.toUpperCase()) {
+			case "QUIT", "STOP", "CLOSE" -> gameAPI.onQuit();
+		}
+		//TODO send command
 	}
 }

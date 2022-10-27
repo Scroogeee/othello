@@ -22,4 +22,9 @@ public interface OthelloGameAPI {
 	 * Sends a request to return the current player as a CellStatus
 	 */
 	PlayerColor getCurrentPlayer();
+
+	/**
+	 * Sends a request to quit the game
+	 */
+	void onQuit();
 }

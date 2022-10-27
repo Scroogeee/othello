@@ -2,10 +2,11 @@ package chaumette.othello;
 
 import chaumette.othello.board.OthelloBoard;
 import chaumette.othello.external.Move;
-import chaumette.othello.gui.OthelloCmdLineGUI;
+import chaumette.othello.gui.OthelloCmdLineUI;
 import chaumette.othello.util.OthelloGameAPI;
 import chaumette.othello.util.PlayerColor;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.stage.Stage;
 
 public class OthelloMain extends Application implements OthelloGameAPI {
@@ -23,7 +24,12 @@ public class OthelloMain extends Application implements OthelloGameAPI {
 	/**
 	 * Contains all code for graphics
 	 */
-	private OthelloCmdLineGUI theGUI;
+	private OthelloCmdLineUI theGUI;
+
+	/**
+	 * The stage of this application
+	 */
+	private Stage theStage;
 
 	public static void main(String[] args) {
 		System.out.println("Hello othello!");
@@ -32,7 +38,8 @@ public class OthelloMain extends Application implements OthelloGameAPI {
 
 	@Override
 	public void start(Stage primaryStage) {
-		theGUI = new OthelloCmdLineGUI(primaryStage, this);
+		theStage = primaryStage;
+		theGUI = new OthelloCmdLineUI(theStage, this);
 		theGUI.initUI();
 	}
 
@@ -45,11 +52,17 @@ public class OthelloMain extends Application implements OthelloGameAPI {
 	@Override
 	public void onRestart() {
 		//TODO implement restart
+
 	}
 
 	@Override
 	public PlayerColor getCurrentPlayer() {
 		//TODO implement
 		return PlayerColor.EMPTY;
+	}
+
+	@Override
+	public void onQuit() {
+		Platform.exit();
 	}
 }
