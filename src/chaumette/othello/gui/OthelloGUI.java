@@ -4,9 +4,11 @@
 
 package chaumette.othello.gui;
 
+import chaumette.othello.board.OthelloBoard;
 import chaumette.othello.external.Move;
 import chaumette.othello.util.Constants;
 import chaumette.othello.util.OthelloGameAPI;
+import chaumette.othello.util.PlayerColor;
 import javafx.event.ActionEvent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -55,6 +57,16 @@ public class OthelloGUI extends OthelloUI {
 		primaryScene = new Scene(mainPane);
 		theStage.setScene(primaryScene);
 		theStage.show();
+	}
+
+	@Override
+	public void displayBoardState(OthelloBoard board) {
+		PlayerColor[][] cells = board.getBoardAsTwoDimArray();
+		for (int i = 0; i < cells.length; i++) {
+			for (int j = 0; j < cells[i].length; j++) {
+				buttonsGrid[i * board.getxSize() + j].setText(cells[i][j].toString());
+			}
+		}
 	}
 
 	private GridPane createTopGrid() {

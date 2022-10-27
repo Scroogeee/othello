@@ -4,7 +4,9 @@
 
 package chaumette.othello.gui;
 
+import chaumette.othello.board.OthelloBoard;
 import chaumette.othello.util.OthelloGameAPI;
+import chaumette.othello.util.PlayerColor;
 import javafx.scene.Scene;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextArea;
@@ -16,6 +18,8 @@ import javafx.stage.Stage;
 
 public class OthelloCmdLineUI extends OthelloUI {
 
+	private TextArea logArea;
+
 	public OthelloCmdLineUI(Stage primaryStage, OthelloGameAPI gameReference) {
 		super(primaryStage, gameReference);
 	}
@@ -26,7 +30,7 @@ public class OthelloCmdLineUI extends OthelloUI {
 
 		//Build console output
 		ScrollPane logPane = new ScrollPane();
-		TextArea logArea = new TextArea();
+		logArea = new TextArea();
 		logArea.setEditable(false);
 		logPane.setContent(logArea);
 		mainPane.setCenter(logPane);
@@ -37,7 +41,6 @@ public class OthelloCmdLineUI extends OthelloUI {
 			if (event.getCode() == KeyCode.ENTER) {
 				String command = userInputField.getText();
 				userInputField.setText("");
-				logArea.appendText(command + "\n");
 				interpretCommand(command);
 			}
 		});
@@ -51,10 +54,40 @@ public class OthelloCmdLineUI extends OthelloUI {
 		theStage.show();
 	}
 
+	@Override
+	public void displayBoardState(OthelloBoard board) {
+		PlayerColor[][] cells = board.getBoardAsTwoDimArray();
+		writeToLog("Board state:");
+		for (int i = 0; i < cells.length; i++) {
+			for (int j = 0; j < cells.length; j++) {
+				writeToLog(String.valueOf(cells[i][j].ordinal()), false);
+			}
+			writeToLog();
+		}
+
+	}
+
 	private void interpretCommand(String s) {
 		switch (s.toUpperCase()) {
 			case "QUIT", "STOP", "CLOSE" -> gameAPI.onQuit();
 		}
 		//TODO send command
+	}
+
+	private void writeToLog() {
+		logArea.appendText("\n");
+	}
+
+	private void writeToLog(String s) {
+		logArea.appendText(s + "\n");
+	}
+
+	private void writeToLog(String s, boolean appendNewline) {
+		if (appendNewline) {
+			logArea.appendText(s + "\n");
+		} else {
+			logArea.appendText(s);
+		}
+
 	}
 }

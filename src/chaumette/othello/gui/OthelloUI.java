@@ -4,6 +4,7 @@
 
 package chaumette.othello.gui;
 
+import chaumette.othello.board.OthelloBoard;
 import chaumette.othello.util.OthelloGameAPI;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -21,4 +22,6 @@ public abstract class OthelloUI {
 	}
 
 	public abstract void initUI();
+
+	public abstract void displayBoardState(OthelloBoard board);
 }

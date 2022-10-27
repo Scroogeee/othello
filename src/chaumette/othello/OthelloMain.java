@@ -1,8 +1,10 @@
 package chaumette.othello;
 
 import chaumette.othello.board.OthelloBoard;
+import chaumette.othello.board.OthelloOneDimArrayBoard;
 import chaumette.othello.external.Move;
 import chaumette.othello.gui.OthelloCmdLineUI;
+import chaumette.othello.util.Constants;
 import chaumette.othello.util.OthelloGameAPI;
 import chaumette.othello.util.PlayerColor;
 import javafx.application.Application;
@@ -41,6 +43,9 @@ public class OthelloMain extends Application implements OthelloGameAPI {
 		theStage = primaryStage;
 		theGUI = new OthelloCmdLineUI(theStage, this);
 		theGUI.initUI();
+		theBoard = new OthelloOneDimArrayBoard(Constants.BOARD_SIZE, Constants.BOARD_SIZE);
+		theBoard.init();
+		theGUI.displayBoardState(theBoard);
 	}
 
 	@Override

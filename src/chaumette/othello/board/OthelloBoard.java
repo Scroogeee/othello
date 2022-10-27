@@ -13,6 +13,20 @@ import chaumette.othello.util.PlayerColor;
 public abstract class OthelloBoard {
 
 	/**
+	 * @return the xSize
+	 */
+	public int getxSize() {
+		return xSize;
+	}
+
+	/**
+	 * @return the ySize
+	 */
+	public int getySize() {
+		return ySize;
+	}
+
+	/**
 	 * The x size of the board (vertical downwards, starts from 0)
 	 */
 	protected int xSize;
@@ -57,4 +71,5 @@ public abstract class OthelloBoard {
 	 * Returns the board as a two-dimensional array
 	 */
 	public abstract PlayerColor[][] getBoardAsTwoDimArray();
+
 }

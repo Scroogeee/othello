@@ -8,6 +8,8 @@ import chaumette.othello.external.Move;
 import chaumette.othello.util.InvalidMoveException;
 import chaumette.othello.util.PlayerColor;
 
+import java.util.Arrays;
+
 /**
  * The implementation of an othello board via a one-dimensional array
  */
@@ -31,7 +33,7 @@ public class OthelloOneDimArrayBoard extends OthelloBoard {
 
 	@Override
 	public void init() {
-
+		Arrays.fill(data, PlayerColor.EMPTY);
 	}
 
 	@Override
