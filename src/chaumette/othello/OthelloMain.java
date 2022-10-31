@@ -5,6 +5,7 @@ import chaumette.othello.board.OthelloOneDimArrayBoard;
 import chaumette.othello.external.Move;
 import chaumette.othello.gui.OthelloCmdLineUI;
 import chaumette.othello.util.Constants;
+import chaumette.othello.util.InvalidMoveException;
 import chaumette.othello.util.OthelloGameAPI;
 import chaumette.othello.util.PlayerColor;
 import javafx.application.Application;
@@ -52,8 +53,15 @@ public class OthelloMain extends Application implements OthelloGameAPI {
 
 	@Override
 	public boolean requestMove(Move move, PlayerColor c) {
-		//TODO implement requestMove
-		return false;
+		//TODO add checks if it's player's turn
+		try {
+			theBoard.doMove(move, c);
+		} catch (InvalidMoveException invalidMoveException) {
+			theGUI.displayMessage("Invalid Move: " + move + " with color " + c);
+			return false;
+		}
+		theGUI.displayBoardState(theBoard);
+		return true;
 	}
 
 	@Override

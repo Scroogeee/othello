@@ -64,9 +64,14 @@ public class OthelloGUI extends OthelloUI {
 		PlayerColor[][] cells = board.getBoardAsTwoDimArray();
 		for (int i = 0; i < cells.length; i++) {
 			for (int j = 0; j < cells[i].length; j++) {
-				buttonsGrid[i * board.getxSize() + j].setText(cells[i][j].toString());
+				buttonsGrid[i * board.getXSize() + j].setText(cells[i][j].toString());
 			}
 		}
+	}
+
+	@Override
+	public void displayMessage(String s) {
+		helpText.setText(s);
 	}
 
 	private GridPane createTopGrid() {

@@ -24,4 +24,6 @@ public abstract class OthelloUI {
 	public abstract void initUI();
 
 	public abstract void displayBoardState(OthelloBoard board);
+
+	public abstract void displayMessage(String s);
 }

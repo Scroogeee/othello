@@ -58,49 +58,36 @@ public class OthelloCmdLineUI extends OthelloUI {
 	@Override
 	public void displayBoardState(OthelloBoard board) {
 		PlayerColor[][] cells = board.getBoardAsTwoDimArray();
-		writeToLog("Board state:");
+		displayMessage("Board state:");
+		StringBuilder message;
 		for (PlayerColor[] cell : cells) {
+			message = new StringBuilder();
 			for (int j = 0; j < cells.length; j++) {
-				writeToLog(String.valueOf(cell[j].ordinal()), false);
+				message.append(cell[j].ordinal());
 			}
-			writeToLog();
+			displayMessage(message.toString());
 		}
 
+	}
+
+	@Override
+	public void displayMessage(String s) {
+		logArea.appendText(s + "\n");
 	}
 
 	private void interpretCommand(String s) {
 		//TODO change to allow playing against AI
 		String[] parts = s.split("\s");
 		switch (parts[0].toUpperCase()) {
-			case "QUIT", "STOP", "CLOSE" -> gameAPI.onQuit();
+			case "QUIT", "STOP", "CLOSE", "EXIT" -> gameAPI.onQuit();
 			case "PLAY", "MOVE" -> {
 				if (parts.length >= 3) {
 					int i = Integer.parseInt(parts[1]);
 					int j = Integer.parseInt(parts[2]);
 					Move m = new Move(i, j);
-					boolean moveSuccess = gameAPI.requestMove(m, gameAPI.getCurrentPlayer());
-					if (!moveSuccess) {
-						writeToLog("Move not successful!");
-					}
+					gameAPI.requestMove(m, gameAPI.getCurrentPlayer());
 				}
 			}
 		}
-	}
-
-	private void writeToLog() {
-		logArea.appendText("\n");
-	}
-
-	private void writeToLog(String s) {
-		logArea.appendText(s + "\n");
-	}
-
-	private void writeToLog(String s, boolean appendNewline) {
-		if (appendNewline) {
-			logArea.appendText(s + "\n");
-		} else {
-			logArea.appendText(s);
-		}
-
 	}
 }

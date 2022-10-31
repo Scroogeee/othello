@@ -6,5 +6,17 @@ package chaumette.othello.util;
 public enum PlayerColor {
 	EMPTY,
 	BLACK,
-	WHITE
+	WHITE;
+
+	public static PlayerColor invert(PlayerColor c) {
+		switch (c) {
+			case BLACK -> {
+				return WHITE;
+			}
+			case WHITE -> {
+				return BLACK;
+			}
+		}
+		return EMPTY;
+	}
 }

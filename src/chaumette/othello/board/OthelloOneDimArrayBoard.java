@@ -8,7 +8,6 @@ import chaumette.othello.external.Move;
 import chaumette.othello.util.PlayerColor;
 
 import java.util.Arrays;
-import java.util.List;
 
 /**
  * The implementation of an othello board via a one-dimensional array
@@ -38,12 +37,6 @@ public class OthelloOneDimArrayBoard extends OthelloBoard {
 		data[(xSize / 2) * xSize + (ySize / 2)] = PlayerColor.WHITE;
 		data[(xSize / 2) * xSize + ySize / 2 - 1] = PlayerColor.BLACK;
 		data[(xSize / 2 - 1) * xSize + (ySize / 2)] = PlayerColor.BLACK;
-	}
-
-	@Override
-	protected List<Move> getSideEffects(Move m, PlayerColor c) {
-		//TODO compute the side effects
-		return null;
 	}
 
 	@Override
