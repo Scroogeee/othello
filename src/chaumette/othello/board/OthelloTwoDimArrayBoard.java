@@ -33,10 +33,10 @@ public class OthelloTwoDimArrayBoard extends OthelloBoard {
 		for (PlayerColor[] datum : data) {
 			Arrays.fill(datum, PlayerColor.EMPTY);
 		}
+		data[BOARD_SIZE / 2 - 1][BOARD_SIZE / 2 - 1] = PlayerColor.WHITE;
 		data[BOARD_SIZE / 2][BOARD_SIZE / 2] = PlayerColor.WHITE;
-		data[BOARD_SIZE / 2 + 1][BOARD_SIZE / 2 + 1] = PlayerColor.WHITE;
-		data[BOARD_SIZE / 2 + 1][BOARD_SIZE / 2] = PlayerColor.BLACK;
-		data[BOARD_SIZE / 2][BOARD_SIZE / 2 + 1] = PlayerColor.BLACK;
+		data[BOARD_SIZE / 2][BOARD_SIZE / 2 - 1] = PlayerColor.BLACK;
+		data[BOARD_SIZE / 2 - 1][BOARD_SIZE / 2] = PlayerColor.BLACK;
 	}
 
 	@Override
@@ -45,7 +45,7 @@ public class OthelloTwoDimArrayBoard extends OthelloBoard {
 	}
 
 	@Override
-	protected PlayerColor getCellColor(int x, int y) {
+	public PlayerColor getCellColor(int x, int y) {
 		return data[x][y];
 	}
 

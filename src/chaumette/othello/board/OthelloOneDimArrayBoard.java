@@ -47,7 +47,8 @@ public class OthelloOneDimArrayBoard extends OthelloBoard {
 	}
 
 	@Override
-	protected PlayerColor getCellColor(int x, int y) {
+	public PlayerColor getCellColor(int x, int y) {
 		return data[x * BOARD_SIZE + y];
 	}
+
 }

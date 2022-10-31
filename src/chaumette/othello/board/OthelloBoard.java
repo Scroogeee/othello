@@ -126,10 +126,10 @@ public abstract class OthelloBoard {
 	/**
 	 * Returns all board cells from the given point outwards in the given direction
 	 */
-	protected final Move[] getProjection(Move from, Move projectionVector) {
+	public final Move[] getProjection(Move from, Move projectionVector) {
 		List<Move> toReturn = new ArrayList<>();
-		int currentX = from.x;
-		int currentY = from.y;
+		int currentX = from.x + projectionVector.x;
+		int currentY = from.y + projectionVector.y;
 		while ((0 <= currentX && currentX < BOARD_SIZE) && (0 <= currentY && currentY < BOARD_SIZE)) {
 			toReturn.add(new Move(currentX, currentY));
 			currentX += projectionVector.x;
@@ -146,14 +146,14 @@ public abstract class OthelloBoard {
 	/**
 	 * Returns the color of a given cell
 	 */
-	protected final PlayerColor getCellColor(Move m) {
+	public final PlayerColor getCellColor(Move m) {
 		return getCellColor(m.x, m.y);
 	}
 
 	/**
 	 * Returns the color of a given cell
 	 */
-	protected abstract PlayerColor getCellColor(int x, int y);
+	public abstract PlayerColor getCellColor(int x, int y);
 
 	/**
 	 * @return a List of all the side effect (aka flipping stones)
@@ -163,9 +163,13 @@ public abstract class OthelloBoard {
 		Set<Move> sideEffects = new HashSet<>();
 		Move[][] projections = new Move[NUM_DIRECTIONS][];
 		int counter = 0;
-		for (int xStep = -1; xStep < 1; xStep++) {
-			for (int yStep = -1; yStep < 1; yStep++) {
+		for (int xStep = -1; xStep <= 1; xStep++) {
+			for (int yStep = -1; yStep <= 1; yStep++) {
+				if (xStep == 0 && yStep == 0) {
+					continue;
+				}
 				projections[counter] = getProjection(m, new Move(xStep, yStep));
+				counter++;
 			}
 		}
 		for (Move[] projection : projections) {
@@ -184,4 +188,15 @@ public abstract class OthelloBoard {
 		return sideEffects;
 	}
 
+	@Override
+	public String toString() {
+		StringBuilder representation = new StringBuilder();
+		for (int i = 0; i < BOARD_SIZE; i++) {
+			for (int j = 0; j < BOARD_SIZE; j++) {
+				representation.append(getCellColor(i, j)).append("\t");
+			}
+			representation.append("\n");
+		}
+		return representation.toString();
+	}
 }

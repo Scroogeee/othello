@@ -7,7 +7,6 @@ package chaumette.othello.gui;
 import chaumette.othello.board.OthelloBoard;
 import chaumette.othello.external.Move;
 import chaumette.othello.util.OthelloGameAPI;
-import chaumette.othello.util.PlayerColor;
 import javafx.scene.Scene;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextArea;
@@ -57,17 +56,7 @@ public class OthelloCmdLineUI extends OthelloUI {
 
 	@Override
 	public void displayBoardState(OthelloBoard board) {
-		PlayerColor[][] cells = board.getBoardAsTwoDimArray();
-		displayMessage("Board state:");
-		StringBuilder message;
-		for (PlayerColor[] cell : cells) {
-			message = new StringBuilder();
-			for (int j = 0; j < cells.length; j++) {
-				message.append(cell[j].ordinal());
-			}
-			displayMessage(message.toString());
-		}
-
+		displayMessage(board.toString());
 	}
 
 	@Override
