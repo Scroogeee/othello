@@ -5,10 +5,10 @@
 package chaumette.othello.board;
 
 import chaumette.othello.external.Move;
-import chaumette.othello.util.InvalidMoveException;
 import chaumette.othello.util.PlayerColor;
 
 import java.util.Arrays;
+import java.util.List;
 
 /**
  * The implementation of an othello board via a two-dimensional array
@@ -39,29 +39,29 @@ public class OthelloTwoDimArrayBoard extends OthelloBoard {
 	}
 
 	@Override
-	public void doMove(Move m, PlayerColor c) {
-		//TODO then check for winning condition
-		if (isValidMove(m, c)) {
-			data[m.x][m.y] = c;
-			computeSideEffects(m, c);
-		} else {
-			throw new InvalidMoveException();
-		}
+	protected List<Move> getSideEffects(Move m, PlayerColor c) {
+		//TODO slice the array (horizontally, vertically and diagonally)
+		//TODO for each slice do a repeated lookahead:
+		//EMPTY: Stop the lookahead because of invalid
+		//While (OTHER_PLAYER_COLOR):
+		//     Store for flipping
+		//case EMPTY: Stop the lookahead because of invalid
+		//case THIS_PLAYER_COLOR: Flip the correct ones
+
+		return null;
 	}
 
 	@Override
-	protected boolean isValidMove(Move m, PlayerColor c) {
-		//TODO check for move validity
-		return false;
-	}
-
-	@Override
-	protected void computeSideEffects(Move m, PlayerColor c) {
-		//TODO compute the side effects
+	protected void setCell(Move m, PlayerColor c) {
+		data[m.x][m.y] = c;
 	}
 
 	@Override
 	public PlayerColor[][] getBoardAsTwoDimArray() {
 		return data;
+	}
+
+	protected void setCell(Move v) {
+
 	}
 }

@@ -5,10 +5,10 @@
 package chaumette.othello.board;
 
 import chaumette.othello.external.Move;
-import chaumette.othello.util.InvalidMoveException;
 import chaumette.othello.util.PlayerColor;
 
 import java.util.Arrays;
+import java.util.List;
 
 /**
  * The implementation of an othello board via a one-dimensional array
@@ -41,25 +41,14 @@ public class OthelloOneDimArrayBoard extends OthelloBoard {
 	}
 
 	@Override
-	public void doMove(Move m, PlayerColor c) {
-		//TODO then check for winning condition
-		if (isValidMove(m, c)) {
-			data[m.x * xSize + m.y] = c;
-			computeSideEffects(m, c);
-		} else {
-			throw new InvalidMoveException();
-		}
-	}
-
-	@Override
-	protected boolean isValidMove(Move m, PlayerColor c) {
-		//TODO check for move validity
-		return false;
-	}
-
-	@Override
-	protected void computeSideEffects(Move m, PlayerColor c) {
+	protected List<Move> getSideEffects(Move m, PlayerColor c) {
 		//TODO compute the side effects
+		return null;
+	}
+
+	@Override
+	protected void setCell(Move m, PlayerColor c) {
+		data[m.x * xSize + m.y] = c;
 	}
 
 	@Override

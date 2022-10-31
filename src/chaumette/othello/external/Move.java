@@ -42,7 +42,6 @@ public class Move {
 	 *          its possible vales are 0, 1, etc.
 	 */
 	public Move(int x, int y) {
-
 		this.x = x;
 		this.y = y;
 	}

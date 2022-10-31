@@ -5,6 +5,7 @@
 package chaumette.othello.gui;
 
 import chaumette.othello.board.OthelloBoard;
+import chaumette.othello.external.Move;
 import chaumette.othello.util.OthelloGameAPI;
 import chaumette.othello.util.PlayerColor;
 import javafx.scene.Scene;
@@ -58,9 +59,9 @@ public class OthelloCmdLineUI extends OthelloUI {
 	public void displayBoardState(OthelloBoard board) {
 		PlayerColor[][] cells = board.getBoardAsTwoDimArray();
 		writeToLog("Board state:");
-		for (int i = 0; i < cells.length; i++) {
+		for (PlayerColor[] cell : cells) {
 			for (int j = 0; j < cells.length; j++) {
-				writeToLog(String.valueOf(cells[i][j].ordinal()), false);
+				writeToLog(String.valueOf(cell[j].ordinal()), false);
 			}
 			writeToLog();
 		}
@@ -70,8 +71,17 @@ public class OthelloCmdLineUI extends OthelloUI {
 	private void interpretCommand(String s) {
 		switch (s.toUpperCase()) {
 			case "QUIT", "STOP", "CLOSE" -> gameAPI.onQuit();
+			case "PLAY", "MOVE" -> {
+				String[] parts = s.split("\s");
+				if (parts.length >= 3) {
+					int i = Integer.parseInt(parts[1]);
+					int j = Integer.parseInt(parts[2]);
+					Move m = new Move(i, j);
+					//TODO change to allow playing against AI
+					gameAPI.requestMove(m, gameAPI.getCurrentPlayer());
+				}
+			}
 		}
-		//TODO send command
 	}
 
 	private void writeToLog() {

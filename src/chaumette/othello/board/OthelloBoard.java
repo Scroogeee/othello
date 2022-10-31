@@ -5,7 +5,10 @@
 package chaumette.othello.board;
 
 import chaumette.othello.external.Move;
+import chaumette.othello.util.InvalidMoveException;
 import chaumette.othello.util.PlayerColor;
+
+import java.util.List;
 
 /**
  * Represents an othello board as a data structure
@@ -52,24 +55,29 @@ public abstract class OthelloBoard {
 	/**
 	 * Tries to do a given move.
 	 * Throws an InvalidMoveException if the move is invalid.
-	 *
-	 * @return if the given Move could be successfully executed
 	 */
-	public abstract void doMove(Move m, PlayerColor c);
+	public final void doMove(Move m, PlayerColor c) {
+		List<Move> sideEffects = getSideEffects(m, c);
+		if (!sideEffects.isEmpty()) {
+			//TODO then check for winning condition
+		} else {
+			throw new InvalidMoveException();
+		}
+	}
 
 	/**
-	 * Used to check whether a move is valid
+	 * Sets the value of the given board cell to the given Color without checks!!
 	 */
-	protected abstract boolean isValidMove(Move m, PlayerColor c);
+	protected abstract void setCell(Move m, PlayerColor c);
 
 	/**
-	 * Used to compute side effects (aka flipping of other stones)
+	 * @return a List of all the side effect (aka flipping stones)
+	 * a Move would have. If its size is 0, the move is invalid.
 	 */
-	protected abstract void computeSideEffects(Move m, PlayerColor c);
+	protected abstract List<Move> getSideEffects(Move m, PlayerColor c);
 
 	/**
 	 * Returns the board as a two-dimensional array
 	 */
 	public abstract PlayerColor[][] getBoardAsTwoDimArray();
-
 }

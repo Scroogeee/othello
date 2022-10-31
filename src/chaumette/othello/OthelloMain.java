@@ -50,7 +50,7 @@ public class OthelloMain extends Application implements OthelloGameAPI {
 
 	@Override
 	public boolean requestMove(Move move, PlayerColor c) {
-		//TODO implement
+		//TODO implement requestMove
 		return false;
 	}
 
@@ -62,8 +62,7 @@ public class OthelloMain extends Application implements OthelloGameAPI {
 
 	@Override
 	public PlayerColor getCurrentPlayer() {
-		//TODO implement
-		return PlayerColor.EMPTY;
+		return currentPlayer;
 	}
 
 	@Override
