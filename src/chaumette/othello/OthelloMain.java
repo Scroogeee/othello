@@ -1,10 +1,9 @@
 package chaumette.othello;
 
 import chaumette.othello.board.OthelloBoard;
-import chaumette.othello.board.OthelloOneDimArrayBoard;
+import chaumette.othello.board.OthelloTwoDimArrayBoard;
 import chaumette.othello.external.Move;
 import chaumette.othello.gui.OthelloCmdLineUI;
-import chaumette.othello.util.Constants;
 import chaumette.othello.util.InvalidMoveException;
 import chaumette.othello.util.OthelloGameAPI;
 import chaumette.othello.util.PlayerColor;
@@ -46,7 +45,7 @@ public class OthelloMain extends Application implements OthelloGameAPI {
 		theGUI = new OthelloCmdLineUI(theStage, this);
 		theGUI.initUI();
 		//TODO can be changed to other board implementation
-		theBoard = new OthelloOneDimArrayBoard(Constants.BOARD_SIZE, Constants.BOARD_SIZE);
+		theBoard = new OthelloTwoDimArrayBoard();
 		theBoard.init();
 		theGUI.displayBoardState(theBoard);
 	}

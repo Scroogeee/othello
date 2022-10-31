@@ -9,6 +9,8 @@ import chaumette.othello.util.PlayerColor;
 
 import java.util.Arrays;
 
+import static chaumette.othello.util.Constants.BOARD_SIZE;
+
 /**
  * The implementation of an othello board via a one-dimensional array
  */
@@ -25,36 +27,36 @@ public class OthelloOneDimArrayBoard extends OthelloBoard {
 	 * Constructs a new OthelloBoard with specified x and y sizes
 	 * onm the one-dimensional array implementation
 	 */
-	public OthelloOneDimArrayBoard(int xSize, int ySize) {
-		super(xSize, ySize);
-		data = new PlayerColor[xSize * ySize];
+	public OthelloOneDimArrayBoard() {
+		super();
+		data = new PlayerColor[BOARD_SIZE * BOARD_SIZE];
 	}
 
 	@Override
 	public void init() {
 		Arrays.fill(data, PlayerColor.EMPTY);
-		data[(xSize / 2 - 1) * xSize + ySize / 2 - 1] = PlayerColor.WHITE;
-		data[(xSize / 2) * xSize + (ySize / 2)] = PlayerColor.WHITE;
-		data[(xSize / 2) * xSize + ySize / 2 - 1] = PlayerColor.BLACK;
-		data[(xSize / 2 - 1) * xSize + (ySize / 2)] = PlayerColor.BLACK;
+		data[(BOARD_SIZE / 2 - 1) * BOARD_SIZE + BOARD_SIZE / 2 - 1] = PlayerColor.WHITE;
+		data[(BOARD_SIZE / 2) * BOARD_SIZE + (BOARD_SIZE / 2)] = PlayerColor.WHITE;
+		data[(BOARD_SIZE / 2) * BOARD_SIZE + BOARD_SIZE / 2 - 1] = PlayerColor.BLACK;
+		data[(BOARD_SIZE / 2 - 1) * BOARD_SIZE + (BOARD_SIZE / 2)] = PlayerColor.BLACK;
 	}
 
 	@Override
 	protected void setCell(Move m, PlayerColor c) {
-		data[m.x * xSize + m.y] = c;
+		data[m.x * BOARD_SIZE + m.y] = c;
 	}
 
 	@Override
 	protected PlayerColor getCellColor(int x, int y) {
-		return data[x * xSize + y];
+		return data[x * BOARD_SIZE + y];
 	}
 
 	@Override
 	public PlayerColor[][] getBoardAsTwoDimArray() {
-		PlayerColor[][] toReturn = new PlayerColor[xSize][ySize];
-		for (int i = 0; i < xSize; i++) {
-			if (ySize >= 0) {
-				System.arraycopy(data, i * xSize, toReturn[i], 0, ySize);
+		PlayerColor[][] toReturn = new PlayerColor[BOARD_SIZE][BOARD_SIZE];
+		for (int i = 0; i < BOARD_SIZE; i++) {
+			if (BOARD_SIZE >= 0) {
+				System.arraycopy(data, i * BOARD_SIZE, toReturn[i], 0, BOARD_SIZE);
 			}
 		}
 		return toReturn;

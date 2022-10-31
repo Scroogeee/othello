@@ -13,44 +13,13 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import static chaumette.othello.util.Constants.BOARD_SIZE;
 import static chaumette.othello.util.Constants.NUM_DIRECTIONS;
 
 /**
  * Represents an othello board as a data structure
  */
 public abstract class OthelloBoard {
-
-	/**
-	 * @return the xSize
-	 */
-	public int getXSize() {
-		return xSize;
-	}
-
-	/**
-	 * @return the ySize
-	 */
-	public int getYSize() {
-		return ySize;
-	}
-
-	/**
-	 * The x size of the board (vertical downwards, starts from 0)
-	 */
-	protected int xSize;
-
-	/**
-	 * The y size of the board (horizontal to the right, starts from 0)
-	 */
-	protected int ySize;
-
-	/**
-	 * Default constructor for a new OthelloBoard with specified x and y sizes
-	 */
-	public OthelloBoard(int xSize, int ySize) {
-		this.xSize = xSize;
-		this.ySize = ySize;
-	}
 
 	/**
 	 * Initializes the board with the white and black pieces at the center
@@ -84,8 +53,8 @@ public abstract class OthelloBoard {
 	 * @return if the given player has any valid move
 	 */
 	public boolean canDoValidMove(PlayerColor c) {
-		for (int i = 0; i < xSize; i++) {
-			for (int j = 0; j < ySize; j++) {
+		for (int i = 0; i < BOARD_SIZE; i++) {
+			for (int j = 0; j < BOARD_SIZE; j++) {
 				if (isValidMove(new Move(i, j), c)) {
 					return true;
 				}
@@ -126,7 +95,7 @@ public abstract class OthelloBoard {
 		List<Move> toReturn = new ArrayList<>();
 		int currentX = from.x;
 		int currentY = from.y;
-		while ((0 <= currentX && currentX < xSize) && (0 <= currentY && currentY < ySize)) {
+		while ((0 <= currentX && currentX < BOARD_SIZE) && (0 <= currentY && currentY < BOARD_SIZE)) {
 			toReturn.add(new Move(currentX, currentY));
 			currentX += projectionVector.x;
 			currentY += projectionVector.y;

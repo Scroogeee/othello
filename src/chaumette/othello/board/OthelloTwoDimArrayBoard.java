@@ -9,6 +9,8 @@ import chaumette.othello.util.PlayerColor;
 
 import java.util.Arrays;
 
+import static chaumette.othello.util.Constants.BOARD_SIZE;
+
 /**
  * The implementation of an othello board via a two-dimensional array
  */
@@ -21,9 +23,9 @@ public class OthelloTwoDimArrayBoard extends OthelloBoard {
 	 */
 	private final PlayerColor[][] data;
 
-	public OthelloTwoDimArrayBoard(int xSize, int ySize) {
-		super(xSize, ySize);
-		data = new PlayerColor[xSize][ySize];
+	public OthelloTwoDimArrayBoard() {
+		super();
+		data = new PlayerColor[BOARD_SIZE][BOARD_SIZE];
 	}
 
 	@Override
@@ -31,10 +33,10 @@ public class OthelloTwoDimArrayBoard extends OthelloBoard {
 		for (PlayerColor[] datum : data) {
 			Arrays.fill(datum, PlayerColor.EMPTY);
 		}
-		data[xSize / 2][ySize / 2] = PlayerColor.WHITE;
-		data[xSize / 2 + 1][ySize / 2 + 1] = PlayerColor.WHITE;
-		data[xSize / 2 + 1][ySize / 2] = PlayerColor.BLACK;
-		data[xSize / 2][ySize / 2 + 1] = PlayerColor.BLACK;
+		data[BOARD_SIZE / 2][BOARD_SIZE / 2] = PlayerColor.WHITE;
+		data[BOARD_SIZE / 2 + 1][BOARD_SIZE / 2 + 1] = PlayerColor.WHITE;
+		data[BOARD_SIZE / 2 + 1][BOARD_SIZE / 2] = PlayerColor.BLACK;
+		data[BOARD_SIZE / 2][BOARD_SIZE / 2 + 1] = PlayerColor.BLACK;
 	}
 
 	@Override
