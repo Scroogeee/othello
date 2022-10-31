@@ -133,12 +133,12 @@ public abstract class OthelloBoard {
 	}
 
 	/**
-	 * Returns all board cells from the given point outwards in the given direction
+	 * Returns all board cells from the given point (inclusive) outwards in the given direction
 	 */
 	public final Move[] getProjection(Move from, Move projectionVector) {
 		List<Move> toReturn = new ArrayList<>();
-		int currentX = from.x + projectionVector.x;
-		int currentY = from.y + projectionVector.y;
+		int currentX = from.x;
+		int currentY = from.y;
 		while ((0 <= currentX && currentX < BOARD_SIZE) && (0 <= currentY && currentY < BOARD_SIZE)) {
 			toReturn.add(new Move(currentX, currentY));
 			currentX += projectionVector.x;
@@ -183,16 +183,19 @@ public abstract class OthelloBoard {
 		}
 		for (Move[] projection : projections) {
 			List<Move> potentialSideEffects = new ArrayList<>();
-			for (Move move : projection) {
-				if (getCellColor(move) == PlayerColor.EMPTY) {
-					potentialSideEffects.clear();
+			boolean validProjectionEnd = false;
+			for (int i = 1; i < projection.length; i++) {
+				if (getCellColor(projection[i]) == PlayerColor.EMPTY) {
 					break;
-				} else if (getCellColor(move) == currentPlayer) {
+				} else if (getCellColor(projection[i]) == currentPlayer) {
+					validProjectionEnd = true;
 					break;
 				}
-				potentialSideEffects.add(move);
+				potentialSideEffects.add(projection[i]);
 			}
-			sideEffects.addAll(potentialSideEffects);
+			if (validProjectionEnd) {
+				sideEffects.addAll(potentialSideEffects);
+			}
 		}
 		return sideEffects;
 	}

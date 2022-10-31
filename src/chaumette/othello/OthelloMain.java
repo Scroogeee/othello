@@ -1,7 +1,7 @@
 package chaumette.othello;
 
 import chaumette.othello.board.OthelloBoard;
-import chaumette.othello.board.OthelloTwoDimArrayBoard;
+import chaumette.othello.board.OthelloOneDimArrayBoard;
 import chaumette.othello.external.Move;
 import chaumette.othello.gui.OthelloCmdLineUI;
 import chaumette.othello.util.OthelloGameAPI;
@@ -13,7 +13,7 @@ import javafx.stage.Stage;
 public class OthelloMain extends Application implements OthelloGameAPI {
 
 	/**
-	 * Stores the current plyer (starting with black)
+	 * Stores the current player (starting with black)
 	 */
 	private final PlayerColor currentPlayer = PlayerColor.BLACK;
 
@@ -44,20 +44,19 @@ public class OthelloMain extends Application implements OthelloGameAPI {
 		theGUI = new OthelloCmdLineUI(theStage, this);
 		theGUI.initUI();
 		//TODO can be changed to other board implementation
-		theBoard = new OthelloTwoDimArrayBoard();
+		theBoard = new OthelloOneDimArrayBoard();
 		theBoard.init();
 		theGUI.displayBoardState(theBoard);
 	}
 
 	@Override
 	public boolean requestMove(Move move, PlayerColor c) {
-		//TODO implement
-		return false;
+		throw new RuntimeException("Not Implemented");
 	}
 
 	@Override
 	public void onRestart() {
-		//TODO implement restart
+		throw new RuntimeException("Not Implemented");
 	}
 
 	@Override

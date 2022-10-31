@@ -5,25 +5,56 @@
 package chaumette.othello.test;
 
 import chaumette.othello.board.OthelloBoard;
-import chaumette.othello.board.OthelloTwoDimArrayBoard;
+import chaumette.othello.board.OthelloOneDimArrayBoard;
 import chaumette.othello.external.Move;
 import chaumette.othello.util.PlayerColor;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
-import java.util.Scanner;
+import java.util.*;
 
 import static chaumette.othello.util.PlayerColor.*;
 
 public class OthelloTester implements Runnable {
-	private final OthelloBoard board = new OthelloTwoDimArrayBoard();
+	private final OthelloBoard board = new OthelloOneDimArrayBoard();
 	private final Scanner scanner = new Scanner(System.in);
-
 	private final Random random = new Random();
+	private final Map<PlayerColor, PlayerType> playerColorToPlayerType;
+	private TestMode testMode;
+
+	public OthelloTester(String[] args) {
+		playerColorToPlayerType = new HashMap<>();
+		if (args.length == 1) {
+			switch (args[0].toUpperCase()) {
+				case "HVH" -> {
+					testMode = TestMode.HVH;
+					playerColorToPlayerType.put(BLACK, PlayerType.HUMAN);
+					playerColorToPlayerType.put(WHITE, PlayerType.HUMAN);
+				}
+				case "HVC" -> {
+					testMode = TestMode.HVC;
+					playerColorToPlayerType.put(BLACK, PlayerType.HUMAN);
+					playerColorToPlayerType.put(WHITE, PlayerType.COMPUTER);
+				}
+				case "CVH" -> {
+					testMode = TestMode.CVH;
+					playerColorToPlayerType.put(BLACK, PlayerType.COMPUTER);
+					playerColorToPlayerType.put(WHITE, PlayerType.HUMAN);
+				}
+				case "CVC" -> {
+					testMode = TestMode.CVC;
+					playerColorToPlayerType.put(BLACK, PlayerType.COMPUTER);
+					playerColorToPlayerType.put(WHITE, PlayerType.COMPUTER);
+				}
+			}
+		} else {
+			//default to human versus computer
+			testMode = TestMode.HVC;
+			playerColorToPlayerType.put(BLACK, PlayerType.HUMAN);
+			playerColorToPlayerType.put(WHITE, PlayerType.COMPUTER);
+		}
+	}
 
 	public static void main(String[] args) {
-		new OthelloTester().run();
+		new OthelloTester(args).run();
 	}
 
 	@Override
@@ -35,8 +66,10 @@ public class OthelloTester implements Runnable {
 			System.out.println(board);
 			printValidMoves(currentPlayer);
 			if (board.canDoValidMove(currentPlayer)) {
-				//makePlayerMove(currentPlayer);
-				makeAIMove(currentPlayer);
+				switch (playerColorToPlayerType.get(currentPlayer)) {
+					case HUMAN -> makePlayerMove(currentPlayer);
+					case COMPUTER -> makeAIMove(currentPlayer);
+				}
 			} else {
 				System.out.println("No valid move possible, passing turn!");
 			}
@@ -59,15 +92,21 @@ public class OthelloTester implements Runnable {
 			String input = scanner.nextLine();
 			String[] parts = input.split("\s");
 			if (parts.length >= 2) {
-				int i = Integer.parseInt(parts[0]);
-				int j = Integer.parseInt(parts[1]);
-				Move move = new Move(i, j);
-				isValidMove = board.isValidMove(move, currentPlayer);
-				if (isValidMove) {
-					board.doMove(move, currentPlayer);
-				} else {
+				try {
+					int i = Integer.parseInt(parts[0]);
+					int j = Integer.parseInt(parts[1]);
+					Move move = new Move(i, j);
+					isValidMove = board.isValidMove(move, currentPlayer);
+					if (isValidMove) {
+						board.doMove(move, currentPlayer);
+					} else {
+						System.out.println("Invalid move, please try again!");
+					}
+				} catch (NumberFormatException nfex) {
+					isValidMove = false;
 					System.out.println("Invalid move, please try again!");
 				}
+
 			} else {
 				System.out.println("Invalid move, please try again!");
 			}
