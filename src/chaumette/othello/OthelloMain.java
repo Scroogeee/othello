@@ -41,8 +41,10 @@ public class OthelloMain extends Application implements OthelloGameAPI {
 	@Override
 	public void start(Stage primaryStage) {
 		theStage = primaryStage;
+		//TODO can be changed to real UI
 		theGUI = new OthelloCmdLineUI(theStage, this);
 		theGUI.initUI();
+		//TODO can be changed to other board implementation
 		theBoard = new OthelloOneDimArrayBoard(Constants.BOARD_SIZE, Constants.BOARD_SIZE);
 		theBoard.init();
 		theGUI.displayBoardState(theBoard);
@@ -57,7 +59,6 @@ public class OthelloMain extends Application implements OthelloGameAPI {
 	@Override
 	public void onRestart() {
 		//TODO implement restart
-
 	}
 
 	@Override

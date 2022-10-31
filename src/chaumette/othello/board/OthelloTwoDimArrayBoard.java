@@ -47,7 +47,6 @@ public class OthelloTwoDimArrayBoard extends OthelloBoard {
 		//     Store for flipping
 		//case EMPTY: Stop the lookahead because of invalid
 		//case THIS_PLAYER_COLOR: Flip the correct ones
-
 		return null;
 	}
 
@@ -57,11 +56,12 @@ public class OthelloTwoDimArrayBoard extends OthelloBoard {
 	}
 
 	@Override
-	public PlayerColor[][] getBoardAsTwoDimArray() {
-		return data;
+	protected PlayerColor getCellColor(int x, int y) {
+		return data[x][y];
 	}
 
-	protected void setCell(Move v) {
-
+	@Override
+	public PlayerColor[][] getBoardAsTwoDimArray() {
+		return data;
 	}
 }

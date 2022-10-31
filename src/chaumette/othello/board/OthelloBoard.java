@@ -8,6 +8,7 @@ import chaumette.othello.external.Move;
 import chaumette.othello.util.InvalidMoveException;
 import chaumette.othello.util.PlayerColor;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -57,8 +58,9 @@ public abstract class OthelloBoard {
 	 * Throws an InvalidMoveException if the move is invalid.
 	 */
 	public final void doMove(Move m, PlayerColor c) {
-		List<Move> sideEffects = getSideEffects(m, c);
-		if (!sideEffects.isEmpty()) {
+		List<Move> toFlip = getSideEffects(m, c);
+		if (!toFlip.isEmpty()) {
+			flipCellColor(toFlip);
 			//TODO then check for winning condition
 		} else {
 			throw new InvalidMoveException();
@@ -66,9 +68,49 @@ public abstract class OthelloBoard {
 	}
 
 	/**
+	 * Flips all cell colors at the given locations
+	 */
+	protected void flipCellColor(List<Move> sideEffects) {
+		for (Move move : sideEffects) {
+			switch (getCellColor(move)) {
+				case BLACK -> setCell(move, PlayerColor.WHITE);
+				case WHITE -> setCell(move, PlayerColor.BLACK);
+			}
+		}
+
+	}
+
+	/**
+	 * Returns all board cells from the given point in the given direction
+	 */
+	protected final PlayerColor[] getProjection(Move from, Move projectionVector) {
+		List<PlayerColor> toReturn = new ArrayList<>();
+		int currentX = from.x;
+		int currentY = from.y;
+		while ((0 <= currentX && currentX < xSize) && (0 <= currentY && currentY < ySize)) {
+			toReturn.add(getCellColor(currentX, currentY));
+			currentX += projectionVector.x;
+			currentY += projectionVector.y;
+		}
+		return toReturn.toArray(new PlayerColor[0]);
+	}
+
+	/**
 	 * Sets the value of the given board cell to the given Color without checks!!
 	 */
 	protected abstract void setCell(Move m, PlayerColor c);
+
+	/**
+	 * Returns the color of a given cell
+	 */
+	protected final PlayerColor getCellColor(Move m) {
+		return getCellColor(m.x, m.y);
+	}
+
+	/**
+	 * Returns the color of a given cell
+	 */
+	protected abstract PlayerColor getCellColor(int x, int y);
 
 	/**
 	 * @return a List of all the side effect (aka flipping stones)

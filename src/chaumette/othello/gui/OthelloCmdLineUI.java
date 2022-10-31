@@ -69,16 +69,19 @@ public class OthelloCmdLineUI extends OthelloUI {
 	}
 
 	private void interpretCommand(String s) {
-		switch (s.toUpperCase()) {
+		//TODO change to allow playing against AI
+		String[] parts = s.split("\s");
+		switch (parts[0].toUpperCase()) {
 			case "QUIT", "STOP", "CLOSE" -> gameAPI.onQuit();
 			case "PLAY", "MOVE" -> {
-				String[] parts = s.split("\s");
 				if (parts.length >= 3) {
 					int i = Integer.parseInt(parts[1]);
 					int j = Integer.parseInt(parts[2]);
 					Move m = new Move(i, j);
-					//TODO change to allow playing against AI
-					gameAPI.requestMove(m, gameAPI.getCurrentPlayer());
+					boolean moveSuccess = gameAPI.requestMove(m, gameAPI.getCurrentPlayer());
+					if (!moveSuccess) {
+						writeToLog("Move not successful!");
+					}
 				}
 			}
 		}
