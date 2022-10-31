@@ -68,14 +68,23 @@ public abstract class OthelloBoard {
 	 * @return if the given player has any valid move
 	 */
 	public boolean canDoValidMove(PlayerColor c) {
+		return !getValidMoves(c).isEmpty();
+	}
+
+	/**
+	 * @return all valid moves for the given player
+	 */
+	public Set<Move> getValidMoves(PlayerColor c) {
+		Set<Move> validMoves = new HashSet<>();
 		for (int i = 0; i < BOARD_SIZE; i++) {
 			for (int j = 0; j < BOARD_SIZE; j++) {
-				if (isValidMove(new Move(i, j), c)) {
-					return true;
+				Move move = new Move(i, j);
+				if (isValidMove(move, c)) {
+					validMoves.add(move);
 				}
 			}
 		}
-		return false;
+		return validMoves;
 	}
 
 	/**
