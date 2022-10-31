@@ -49,8 +49,4 @@ public class OthelloTwoDimArrayBoard extends OthelloBoard {
 		return data[x][y];
 	}
 
-	@Override
-	public PlayerColor[][] getBoardAsTwoDimArray() {
-		return data;
-	}
 }

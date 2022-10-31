@@ -22,6 +22,16 @@ import static chaumette.othello.util.Constants.NUM_DIRECTIONS;
 public abstract class OthelloBoard {
 
 	/**
+	 * The current score of the white player
+	 */
+	protected int whiteScore = 2;
+
+	/**
+	 * The current score of the black player
+	 */
+	protected int blackScore = 2;
+
+	/**
 	 * Initializes the board with the white and black pieces at the center
 	 */
 	public abstract void init();
@@ -32,8 +42,13 @@ public abstract class OthelloBoard {
 	 */
 	public final void doMove(Move m, PlayerColor c) {
 		Set<Move> toFlip = getSideEffects(m, c);
-		if (!toFlip.isEmpty()) {
-			flipCellColor(toFlip);
+		if (isValidMove(m, c)) {
+			setCell(m, c);
+			switch (c) {
+				case BLACK -> blackScore++;
+				case WHITE -> whiteScore++;
+			}
+			flipColorOfCells(toFlip);
 		} else {
 			throw new InvalidMoveException();
 		}
@@ -64,32 +79,52 @@ public abstract class OthelloBoard {
 	}
 
 	/**
-	 * If both players don't have any valid moves
+	 * @return if both players don't have any valid moves to do
 	 */
 	public boolean isGameOver() {
 		return !canDoValidMove(PlayerColor.WHITE) && !canDoValidMove(PlayerColor.BLACK);
 	}
 
 	/**
-	 * Returns the board as a two-dimensional array
+	 * @return the winning player color, or EMPTY if it is a tie, or null, if the game is still running
 	 */
-	public abstract PlayerColor[][] getBoardAsTwoDimArray();
+	public PlayerColor getWinner() {
+		if (isGameOver()) {
+			if (whiteScore > blackScore) {
+				return PlayerColor.WHITE;
+			} else if (blackScore > whiteScore) {
+				return PlayerColor.BLACK;
+			} else {
+				return PlayerColor.EMPTY;
+			}
+		} else {
+			return null;
+		}
+	}
 
 	/**
 	 * Flips all cell colors at the given locations
 	 */
-	protected void flipCellColor(Set<Move> sideEffects) {
+	protected void flipColorOfCells(Set<Move> sideEffects) {
 		for (Move move : sideEffects) {
 			switch (getCellColor(move)) {
-				case BLACK -> setCell(move, PlayerColor.WHITE);
-				case WHITE -> setCell(move, PlayerColor.BLACK);
+				case BLACK -> {
+					setCell(move, PlayerColor.WHITE);
+					blackScore--;
+					whiteScore++;
+				}
+				case WHITE -> {
+					setCell(move, PlayerColor.BLACK);
+					whiteScore--;
+					blackScore++;
+				}
 			}
 		}
 
 	}
 
 	/**
-	 * Returns all board cells from the given point in the given direction
+	 * Returns all board cells from the given point outwards in the given direction
 	 */
 	protected final Move[] getProjection(Move from, Move projectionVector) {
 		List<Move> toReturn = new ArrayList<>();
@@ -104,7 +139,7 @@ public abstract class OthelloBoard {
 	}
 
 	/**
-	 * Sets the value of the given board cell to the given Color without checks!!
+	 * Sets the value of the given board cell to the given Color (without checks)!
 	 */
 	protected abstract void setCell(Move m, PlayerColor c);
 
