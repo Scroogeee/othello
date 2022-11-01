@@ -21,10 +21,25 @@ import static chaumette.othello.util.Constants.NUM_DIRECTIONS;
  */
 public abstract class OthelloBoard {
 
+
+	/**
+	 * @return the whiteScore
+	 */
+	public final int getWhiteScore() {
+		return whiteScore;
+	}
+
 	/**
 	 * The current score of the white player
 	 */
 	protected int whiteScore = 2;
+
+	/**
+	 * @return the blackScore
+	 */
+	public final int getBlackScore() {
+		return blackScore;
+	}
 
 	/**
 	 * The current score of the black player
@@ -63,21 +78,21 @@ public abstract class OthelloBoard {
 	 *
 	 * @return if the given move given the current player color would be valid
 	 */
-	public boolean isValidMove(Move m, PlayerColor c) {
+	public final boolean isValidMove(Move m, PlayerColor c) {
 		return getCellColor(m) == PlayerColor.EMPTY && !getSideEffects(m, c).isEmpty();
 	}
 
 	/**
 	 * @return if the given player has any valid move
 	 */
-	public boolean canDoValidMove(PlayerColor c) {
+	public final boolean canDoValidMove(PlayerColor c) {
 		return !getValidMoves(c).isEmpty();
 	}
 
 	/**
 	 * @return all valid moves for the given player
 	 */
-	public Set<Move> getValidMoves(PlayerColor c) {
+	public final Set<Move> getValidMoves(PlayerColor c) {
 		Set<Move> validMoves = new HashSet<>();
 		for (int i = 0; i < BOARD_SIZE; i++) {
 			for (int j = 0; j < BOARD_SIZE; j++) {
@@ -93,14 +108,14 @@ public abstract class OthelloBoard {
 	/**
 	 * @return if both players don't have any valid moves to do
 	 */
-	public boolean isGameOver() {
+	public final boolean isGameOver() {
 		return !canDoValidMove(PlayerColor.WHITE) && !canDoValidMove(PlayerColor.BLACK);
 	}
 
 	/**
 	 * @return the winning player color, or EMPTY if it is a tie, or null, if the game is still running
 	 */
-	public PlayerColor getWinner() {
+	public final PlayerColor getWinner() {
 		if (isGameOver()) {
 			if (whiteScore > blackScore) {
 				return PlayerColor.WHITE;
@@ -117,7 +132,7 @@ public abstract class OthelloBoard {
 	/**
 	 * Flips all cell colors at the given locations
 	 */
-	protected void flipColorOfCells(Set<Move> sideEffects) {
+	protected final void flipColorOfCells(Set<Move> sideEffects) {
 		for (Move move : sideEffects) {
 			switch (getCellColor(move)) {
 				case BLACK -> {

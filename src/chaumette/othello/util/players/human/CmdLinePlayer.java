@@ -60,7 +60,7 @@ public class CmdLinePlayer implements Player {
 						System.out.println("Invalid move, please try again!");
 						Constants.printValidMoves(mentalBoardModel, myPlayerColor);
 					}
-				} catch (NumberFormatException nfex) {
+				} catch (NumberFormatException | IndexOutOfBoundsException ex) {
 					System.out.println("Invalid move, please try again!");
 				}
 			} else {
