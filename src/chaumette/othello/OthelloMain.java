@@ -7,6 +7,7 @@ import chaumette.othello.util.PlayerColor;
 import chaumette.othello.util.board.OthelloBoard;
 import chaumette.othello.util.board.OthelloOneDimArrayBoard;
 import chaumette.othello.util.players.ai.RandomAI;
+import chaumette.othello.util.players.human.CmdLinePlayer;
 import javafx.application.Platform;
 
 import java.util.Random;
@@ -41,8 +42,8 @@ public class OthelloMain implements OthelloGameAPI, Runnable {
 	@Override
 	public void run() {
 		//TODO config who should play
-		playerBlack = new RandomAI();
-		playerWhite = new RandomAI();
+		playerBlack = new RandomAI(false);
+		playerWhite = new CmdLinePlayer();
 
 		theBoard.init();
 		// Black starts

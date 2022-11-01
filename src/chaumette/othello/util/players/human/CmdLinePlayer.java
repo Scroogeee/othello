@@ -39,12 +39,15 @@ public class CmdLinePlayer implements Player {
 	@Override
 	public Move nextMove(Move prevMove, long tOpponent, long t) {
 		if (prevMove != null) {
+			System.out.println("Player " + opponentPlayerColor.ordinal() + " makes move: " + Constants.moveToString(prevMove));
 			mentalBoardModel.doMove(prevMove, opponentPlayerColor);
 		}
+		System.out.println("Current board state:");
 		System.out.println(mentalBoardModel);
 		Move move = null;
 		boolean isValidMove = false;
 		while (!isValidMove) {
+			System.out.println("Player " + myPlayerColor.ordinal() + ", please make a move!");
 			String input = scanner.nextLine();
 			String[] parts = input.split("\s");
 			if (parts.length >= 2) {
