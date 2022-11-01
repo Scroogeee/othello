@@ -6,7 +6,8 @@ package chaumette.othello.util;
 public enum PlayerColor {
 	EMPTY,
 	BLACK,
-	WHITE;
+	WHITE,
+	POSSIBLE;
 
 	public static PlayerColor invert(PlayerColor c) {
 		switch (c) {

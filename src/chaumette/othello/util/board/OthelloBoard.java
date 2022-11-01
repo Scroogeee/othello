@@ -2,7 +2,7 @@
  * @author scrooge
  */
 
-package chaumette.othello.board;
+package chaumette.othello.util.board;
 
 import chaumette.othello.external.Move;
 import chaumette.othello.util.InvalidMoveException;
@@ -50,7 +50,10 @@ public abstract class OthelloBoard {
 			}
 			flipColorOfCells(toFlip);
 		} else {
-			throw new InvalidMoveException();
+			System.out.println("Move " + m.x + "/" + m.y +
+					" for Player " + c.ordinal() + " is invalid." +
+					"\n" + "Board state is \n" + this);
+			throw new InvalidMoveException("Invalid move");
 		}
 	}
 
@@ -209,6 +212,7 @@ public abstract class OthelloBoard {
 			}
 			representation.append("\n");
 		}
+		representation.deleteCharAt(representation.lastIndexOf("\n"));
 		return representation.toString();
 	}
 }

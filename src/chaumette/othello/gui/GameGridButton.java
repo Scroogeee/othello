@@ -7,6 +7,7 @@ package chaumette.othello.gui;
 import chaumette.othello.util.Constants;
 import chaumette.othello.util.PlayerColor;
 import javafx.scene.control.Button;
+import javafx.scene.layout.Background;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 
@@ -14,6 +15,11 @@ import javafx.scene.shape.Circle;
  * Buttons used as the cells of the TicTacToeBoard
  */
 public class GameGridButton extends Button {
+
+	public GameGridButton() {
+		super();
+		this.setBackground(Background.fill(Color.DARKGREEN));
+	}
 
 	/**
 	 * Circle shape
@@ -31,9 +37,12 @@ public class GameGridButton extends Button {
 			circle.setVisible(false);
 		} else {
 			circle.setVisible(true);
+			circle.setFill(null);
+			circle.setStroke(null);
 			switch (c) {
 				case WHITE -> circle.setFill(Color.WHITE);
 				case BLACK -> circle.setFill(Color.BLACK);
+				case POSSIBLE -> circle.setStroke(Color.BLACK);
 			}
 		}
 	}

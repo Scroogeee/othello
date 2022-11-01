@@ -4,22 +4,11 @@
 
 package chaumette.othello.gui;
 
-import chaumette.othello.board.OthelloBoard;
 import chaumette.othello.util.OthelloGameAPI;
-import javafx.scene.Scene;
-import javafx.stage.Stage;
+import chaumette.othello.util.board.OthelloBoard;
 
 public abstract class OthelloUI {
-	protected final OthelloGameAPI gameAPI;
-
-	protected final Stage theStage;
-
-	protected Scene primaryScene;
-
-	public OthelloUI(Stage primaryStage, OthelloGameAPI gameReference) {
-		theStage = primaryStage;
-		gameAPI = gameReference;
-	}
+	protected OthelloGameAPI gameAPI;
 
 	public abstract void initUI();
 
