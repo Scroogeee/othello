@@ -5,6 +5,7 @@
 package chaumette.othello.test;
 
 import chaumette.othello.external.Move;
+import chaumette.othello.util.Constants;
 import chaumette.othello.util.PlayerColor;
 import chaumette.othello.util.board.OthelloBoard;
 import chaumette.othello.util.board.OthelloOneDimArrayBoard;
@@ -64,7 +65,7 @@ public class OthelloTester implements Runnable {
 		while (!board.isGameOver()) {
 			System.out.println("It's player " + currentPlayer.ordinal() + "'s turn!");
 			System.out.println(board);
-			printValidMoves(currentPlayer);
+			Constants.printValidMoves(board, currentPlayer);
 			if (board.canDoValidMove(currentPlayer)) {
 				switch (playerColorToPlayerType.get(currentPlayer)) {
 					case HUMAN -> makePlayerMove(currentPlayer);
@@ -82,7 +83,7 @@ public class OthelloTester implements Runnable {
 	private void makeAIMove(PlayerColor currentPlayer) {
 		List<Move> validMoves = new ArrayList<>(board.getValidMoves(currentPlayer));
 		Move toMake = validMoves.get(random.nextInt(validMoves.size()));
-		System.out.println("AI chooses " + moveToString(toMake) + ".");
+		System.out.println("AI chooses " + Constants.moveToString(toMake) + ".");
 		board.doMove(toMake, currentPlayer);
 	}
 
@@ -125,15 +126,5 @@ public class OthelloTester implements Runnable {
 		return EMPTY;
 	}
 
-	private String moveToString(Move m) {
-		return "[x:" + m.x + ", y:" + m.y + "]";
-	}
 
-	private void printValidMoves(PlayerColor c) {
-		StringBuilder validMoveString = new StringBuilder();
-		for (Move validMove : board.getValidMoves(c)) {
-			validMoveString.append(moveToString(validMove)).append("\t");
-		}
-		System.out.println("Valid moves are: " + validMoveString);
-	}
 }

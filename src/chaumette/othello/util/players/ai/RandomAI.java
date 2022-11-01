@@ -42,8 +42,13 @@ public class RandomAI implements Player {
 			mentalBoardModel.doMove(prevMove, opponentPlayerColor);
 		}
 		ArrayList<Move> possibleMoves = new ArrayList<>(mentalBoardModel.getValidMoves(myPlayerColor));
+		if (possibleMoves.size() == 0) {
+			//pass the turn
+			return null;
+		}
 		Move toMake = possibleMoves.get(theRandom.nextInt(possibleMoves.size()));
 		mentalBoardModel.doMove(toMake, myPlayerColor);
 		return toMake;
 	}
+
 }

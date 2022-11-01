@@ -40,14 +40,15 @@ public class OthelloMain implements OthelloGameAPI, Runnable {
 
 	@Override
 	public void run() {
-		//TODO temporary! Remove to test GUIs
-		playerWhite = new RandomAI();
+		//TODO config who should play
 		playerBlack = new RandomAI();
+		playerWhite = new RandomAI();
 
 		theBoard.init();
 		// Black starts
 		playerBlack.init(0, timeBlack, random);
 		playerWhite.init(1, timeWhite, random);
+
 		while (!theBoard.isGameOver()) {
 			if (theBoard.canDoValidMove(currentPlayer)) {
 				switch (currentPlayer) {
@@ -61,12 +62,16 @@ public class OthelloMain implements OthelloGameAPI, Runnable {
 					}
 				}
 			} else {
-				System.out.println("No valid move possible, passing turn!");
+				switch (currentPlayer) {
+					case WHITE -> prevMove = playerWhite.nextMove(prevMove, timeBlack, timeWhite);
+					case BLACK -> prevMove = playerBlack.nextMove(prevMove, timeWhite, timeBlack);
+				}
 			}
 			currentPlayer = nextPlayer(currentPlayer);
 		}
 		System.out.println("Game is over");
 		System.out.println("Winner is " + theBoard.getWinner().ordinal());
+
 	}
 
 	public PlayerColor nextPlayer(PlayerColor current) {
