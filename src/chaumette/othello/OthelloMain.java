@@ -1,71 +1,83 @@
 package chaumette.othello;
 
-import chaumette.othello.board.OthelloBoard;
-import chaumette.othello.board.OthelloOneDimArrayBoard;
 import chaumette.othello.external.Move;
-import chaumette.othello.gui.OthelloCmdLineUI;
+import chaumette.othello.external.Player;
 import chaumette.othello.util.OthelloGameAPI;
 import chaumette.othello.util.PlayerColor;
-import javafx.application.Application;
+import chaumette.othello.util.board.OthelloBoard;
+import chaumette.othello.util.board.OthelloOneDimArrayBoard;
+import chaumette.othello.util.players.ai.RandomAI;
 import javafx.application.Platform;
-import javafx.stage.Stage;
 
-public class OthelloMain extends Application implements OthelloGameAPI {
+import java.util.Random;
 
+import static chaumette.othello.util.PlayerColor.*;
+
+public class OthelloMain implements OthelloGameAPI, Runnable {
+
+	private final long timeBlack = 8000;
+	private final long timeWhite = 8000;
+	private final OthelloBoard theBoard = new OthelloOneDimArrayBoard();
+	private final Random random = new Random();
 	/**
 	 * Stores the current player (starting with black)
 	 */
-	private final PlayerColor currentPlayer = PlayerColor.BLACK;
-
-	/**
-	 * Contains the game's data
-	 */
-	private OthelloBoard theBoard;
-
-	/**
-	 * Contains all code for graphics
-	 */
-	private OthelloCmdLineUI theGUI;
-
-	/**
-	 * The stage of this application
-	 */
-	private Stage theStage;
+	private PlayerColor currentPlayer = PlayerColor.BLACK;
+	private Player playerBlack;
+	private Player playerWhite;
+	private Move prevMove;
 
 	public static void main(String[] args) {
 		System.out.println("Hello othello!");
-		OthelloMain.launch(args);
-	}
-
-	@Override
-	public void start(Stage primaryStage) {
-		theStage = primaryStage;
-		//TODO can be changed to real UI
-		theGUI = new OthelloCmdLineUI(theStage, this);
-		theGUI.initUI();
-		//TODO can be changed to other board implementation
-		theBoard = new OthelloOneDimArrayBoard();
-		theBoard.init();
-		theGUI.displayBoardState(theBoard);
-	}
-
-	@Override
-	public boolean requestMove(Move move, PlayerColor c) {
-		throw new RuntimeException("Not Implemented");
-	}
-
-	@Override
-	public void onRestart() {
-		throw new RuntimeException("Not Implemented");
-	}
-
-	@Override
-	public PlayerColor getCurrentPlayer() {
-		return currentPlayer;
+		OthelloMain main = new OthelloMain();
+		main.run();
 	}
 
 	@Override
 	public void onQuit() {
 		Platform.exit();
+	}
+
+	@Override
+	public void run() {
+		//TODO temporary! Remove to test GUIs
+		playerWhite = new RandomAI();
+		playerBlack = new RandomAI();
+
+		theBoard.init();
+		// Black starts
+		playerBlack.init(0, timeBlack, random);
+		playerWhite.init(1, timeWhite, random);
+		while (!theBoard.isGameOver()) {
+			if (theBoard.canDoValidMove(currentPlayer)) {
+				switch (currentPlayer) {
+					case WHITE -> {
+						prevMove = playerWhite.nextMove(prevMove, timeBlack, timeWhite);
+						theBoard.doMove(prevMove, WHITE);
+					}
+					case BLACK -> {
+						prevMove = playerBlack.nextMove(prevMove, timeWhite, timeBlack);
+						theBoard.doMove(prevMove, BLACK);
+					}
+				}
+			} else {
+				System.out.println("No valid move possible, passing turn!");
+			}
+			currentPlayer = nextPlayer(currentPlayer);
+		}
+		System.out.println("Game is over");
+		System.out.println("Winner is " + theBoard.getWinner().ordinal());
+	}
+
+	public PlayerColor nextPlayer(PlayerColor current) {
+		switch (current) {
+			case BLACK -> {
+				return WHITE;
+			}
+			case WHITE -> {
+				return BLACK;
+			}
+		}
+		return EMPTY;
 	}
 }

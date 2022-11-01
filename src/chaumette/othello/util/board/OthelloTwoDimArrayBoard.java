@@ -2,7 +2,7 @@
  * @author scrooge
  */
 
-package chaumette.othello.board;
+package chaumette.othello.util.board;
 
 import chaumette.othello.external.Move;
 import chaumette.othello.util.PlayerColor;
