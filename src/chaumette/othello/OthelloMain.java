@@ -2,19 +2,17 @@ package chaumette.othello;
 
 import chaumette.othello.external.Move;
 import chaumette.othello.external.Player;
-import chaumette.othello.util.OthelloGameAPI;
 import chaumette.othello.util.PlayerColor;
 import chaumette.othello.util.board.OthelloBoard;
 import chaumette.othello.util.board.OthelloOneDimArrayBoard;
 import chaumette.othello.util.players.ai.RandomAI;
 import chaumette.othello.util.players.human.CmdLinePlayer;
-import javafx.application.Platform;
 
 import java.util.Random;
 
 import static chaumette.othello.util.PlayerColor.*;
 
-public class OthelloMain implements OthelloGameAPI, Runnable {
+public class OthelloMain implements Runnable {
 
 	private final long timeBlack = 8000;
 	private final long timeWhite = 8000;
@@ -32,11 +30,6 @@ public class OthelloMain implements OthelloGameAPI, Runnable {
 		System.out.println("Hello othello!");
 		OthelloMain main = new OthelloMain();
 		main.run();
-	}
-
-	@Override
-	public void onQuit() {
-		Platform.exit();
 	}
 
 	@Override

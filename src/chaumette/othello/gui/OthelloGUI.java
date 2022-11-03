@@ -5,7 +5,6 @@
 package chaumette.othello.gui;
 
 import chaumette.othello.external.Move;
-import chaumette.othello.util.OthelloGameAPI;
 import chaumette.othello.util.board.OthelloBoard;
 import javafx.event.ActionEvent;
 import javafx.scene.Scene;
@@ -32,10 +31,9 @@ public class OthelloGUI extends OthelloUI {
 	 */
 	private Label helpText;
 
-	public OthelloGUI(Stage primaryStage, OthelloGameAPI gameReference) {
+	public OthelloGUI(Stage primaryStage) {
 		super();
 		theStage = primaryStage;
-		gameAPI = gameReference;
 	}
 
 	@Override
@@ -70,6 +68,11 @@ public class OthelloGUI extends OthelloUI {
 	@Override
 	public void displayMessage(String s) {
 		helpText.setText(s);
+	}
+
+	@Override
+	public Move askUserForMove() {
+		throw new RuntimeException("Not implemented");
 	}
 
 	private GridPane createTopGrid() {
