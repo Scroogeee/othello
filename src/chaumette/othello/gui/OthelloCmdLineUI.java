@@ -9,7 +9,7 @@ import chaumette.othello.util.board.OthelloBoard;
 
 import java.util.Scanner;
 
-public class OthelloCmdLineUI extends OthelloUI {
+public class OthelloCmdLineUI implements OthelloUI {
 
 	private final Scanner scanner = new Scanner(System.in);
 

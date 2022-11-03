@@ -15,7 +15,7 @@ import javafx.stage.Stage;
 
 import static chaumette.othello.util.Constants.BOARD_SIZE;
 
-public class OthelloGUI extends OthelloUI {
+public class OthelloGUI implements OthelloUI {
 
 	private final Stage theStage;
 
