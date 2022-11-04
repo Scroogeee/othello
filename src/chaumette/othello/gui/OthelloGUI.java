@@ -83,9 +83,14 @@ public class OthelloGUI implements OthelloUI {
 	}
 
 	@Override
-	public void displayValidMoves(Set<Move> valid) {
+	public void displayValidMoves(Set<Move> valid, PlayerColor c) {
+		PlayerColor toDisplay = PlayerColor.EMPTY;
+		switch (c) {
+			case WHITE -> toDisplay = PlayerColor.POSSIBLE_WHITE;
+			case BLACK -> toDisplay = PlayerColor.POSSIBLE_BLACK;
+		}
 		for (Move move : valid) {
-			buttonsGrid[move.x * BOARD_SIZE + move.y].setDrawing(PlayerColor.POSSIBLE);
+			buttonsGrid[move.x * BOARD_SIZE + move.y].setDrawing(toDisplay);
 		}
 	}
 

@@ -42,7 +42,8 @@ public class GameGridButton extends Button {
 			switch (c) {
 				case WHITE -> circle.setFill(Color.WHITE);
 				case BLACK -> circle.setFill(Color.BLACK);
-				case POSSIBLE -> circle.setStroke(Color.BLACK);
+				case POSSIBLE_BLACK -> circle.setStroke(Color.BLACK);
+				case POSSIBLE_WHITE -> circle.setStroke(Color.WHITE);
 			}
 		}
 	}

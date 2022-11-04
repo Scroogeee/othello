@@ -52,14 +52,13 @@ public class OthelloMain extends Application {
 		playerBlack.init(0, timeBlack, random);
 		playerWhite.init(1, timeWhite, random);
 
-
 		Task<PlayerColor> gameLoop = new Task<>() {
 			@Override
 			protected PlayerColor call() {
 				theGUI.displayMessage("Welcome to Othello!");
 				while (!theBoard.isGameOver()) {
 					theGUI.displayBoardState(theBoard);
-					theGUI.displayValidMoves(theBoard.getValidMoves(currentPlayer));
+					theGUI.displayValidMoves(theBoard.getValidMoves(currentPlayer), currentPlayer);
 					try {
 						//Busy waiting -- sorry (example code)
 						Thread.sleep(Constants.MOVE_DELAY);

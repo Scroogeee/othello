@@ -7,7 +7,8 @@ public enum PlayerColor {
 	EMPTY,
 	BLACK,
 	WHITE,
-	POSSIBLE;
+	POSSIBLE_BLACK,
+	POSSIBLE_WHITE;
 
 	public static PlayerColor invert(PlayerColor c) {
 		switch (c) {

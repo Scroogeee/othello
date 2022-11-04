@@ -5,6 +5,7 @@
 package chaumette.othello.gui;
 
 import chaumette.othello.external.Move;
+import chaumette.othello.util.PlayerColor;
 import chaumette.othello.util.board.OthelloBoard;
 
 import java.util.Set;
@@ -22,5 +23,5 @@ public interface OthelloUI {
 	 */
 	Move askUserForMove();
 
-	void displayValidMoves(Set<Move> valid);
+	void displayValidMoves(Set<Move> valid, PlayerColor c);
 }

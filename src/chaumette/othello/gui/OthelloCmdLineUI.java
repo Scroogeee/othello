@@ -5,6 +5,7 @@
 package chaumette.othello.gui;
 
 import chaumette.othello.external.Move;
+import chaumette.othello.util.PlayerColor;
 import chaumette.othello.util.board.OthelloBoard;
 
 import java.util.Scanner;
@@ -52,8 +53,9 @@ public class OthelloCmdLineUI implements OthelloUI {
 		return move;
 	}
 
+
 	@Override
-	public void displayValidMoves(Set<Move> valid) {
+	public void displayValidMoves(Set<Move> valid, PlayerColor c) {
 		StringBuilder validMoveString = new StringBuilder();
 		for (Move validMove : valid) {
 			validMoveString.append(moveToString(validMove)).append("\t");
