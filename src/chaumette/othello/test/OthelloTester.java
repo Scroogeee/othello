@@ -12,6 +12,7 @@ import chaumette.othello.util.board.OthelloOneDimArrayBoard;
 
 import java.util.*;
 
+import static chaumette.othello.util.Constants.moveToString;
 import static chaumette.othello.util.PlayerColor.*;
 
 public class OthelloTester implements Runnable {
@@ -65,7 +66,7 @@ public class OthelloTester implements Runnable {
 		while (!board.isGameOver()) {
 			System.out.println("It's player " + currentPlayer.ordinal() + "'s turn!");
 			System.out.println(board);
-			Constants.printValidMoves(board, currentPlayer);
+			printValidMoves(board, currentPlayer);
 			if (board.canDoValidMove(currentPlayer)) {
 				switch (playerColorToPlayerType.get(currentPlayer)) {
 					case HUMAN -> makePlayerMove(currentPlayer);
@@ -80,6 +81,14 @@ public class OthelloTester implements Runnable {
 		System.out.println("Winner is " + board.getWinner().ordinal());
 	}
 
+	private void printValidMoves(OthelloBoard board, PlayerColor currentPlayer) {
+		StringBuilder validMoveString = new StringBuilder();
+		for (Move validMove : board.getValidMoves(currentPlayer)) {
+			validMoveString.append(moveToString(validMove)).append("\t");
+		}
+		System.out.println("Valid moves are: " + validMoveString);
+	}
+
 	private void makeAIMove(PlayerColor currentPlayer) {
 		List<Move> validMoves = new ArrayList<>(board.getValidMoves(currentPlayer));
 		Move toMake = validMoves.get(random.nextInt(validMoves.size()));
@@ -91,7 +100,7 @@ public class OthelloTester implements Runnable {
 		boolean isValidMove = false;
 		while (!isValidMove) {
 			String input = scanner.nextLine();
-			String[] parts = input.split("\s");
+			String[] parts = input.split(" ");
 			if (parts.length >= 2) {
 				try {
 					int i = Integer.parseInt(parts[0]);

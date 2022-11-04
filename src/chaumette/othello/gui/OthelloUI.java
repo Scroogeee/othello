@@ -7,6 +7,8 @@ package chaumette.othello.gui;
 import chaumette.othello.external.Move;
 import chaumette.othello.util.board.OthelloBoard;
 
+import java.util.Set;
+
 public interface OthelloUI {
 
 	void initUI();
@@ -19,4 +21,6 @@ public interface OthelloUI {
 	 * Asks the user for a move and returns it (without checks)
 	 */
 	Move askUserForMove();
+
+	void displayValidMoves(Set<Move> valid);
 }

@@ -5,13 +5,19 @@
 package chaumette.othello.gui;
 
 import chaumette.othello.external.Move;
+import chaumette.othello.util.PlayerColor;
 import chaumette.othello.util.board.OthelloBoard;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+
+import java.util.Set;
 
 import static chaumette.othello.util.Constants.BOARD_SIZE;
 
@@ -67,12 +73,20 @@ public class OthelloGUI implements OthelloUI {
 
 	@Override
 	public void displayMessage(String s) {
-		helpText.setText(s);
+		Platform.runLater(() -> helpText.setText(s));
 	}
 
 	@Override
 	public Move askUserForMove() {
-		throw new RuntimeException("Not implemented");
+		//TODO implement
+		return null;
+	}
+
+	@Override
+	public void displayValidMoves(Set<Move> valid) {
+		for (Move move : valid) {
+			buttonsGrid[move.x * BOARD_SIZE + move.y].setDrawing(PlayerColor.POSSIBLE);
+		}
 	}
 
 	private GridPane createTopGrid() {
@@ -89,10 +103,10 @@ public class OthelloGUI implements OthelloUI {
 			for (int y = 0; y < BOARD_SIZE; y++) {
 				Move m = new Move(x, y);
 				GameGridButton btn = new GameGridButton();
+				btn.setBorder(Border.stroke(Color.BLACK));
 				btn.setPrefSize(100, 100);
 				btn.addEventHandler(ActionEvent.ACTION, event -> {
-					//TODO save the click event as last requested move
-					System.out.println("TODO: save the click event as last requested move");
+					//TODO add some onUserMoveRequest handling logic
 				});
 				gameGrid.add(btn, x, y);
 				buttonsGrid[x * BOARD_SIZE + y] = btn;

@@ -8,6 +8,9 @@ import chaumette.othello.external.Move;
 import chaumette.othello.util.board.OthelloBoard;
 
 import java.util.Scanner;
+import java.util.Set;
+
+import static chaumette.othello.util.Constants.moveToString;
 
 public class OthelloCmdLineUI implements OthelloUI {
 
@@ -32,7 +35,7 @@ public class OthelloCmdLineUI implements OthelloUI {
 	public Move askUserForMove() {
 		Move move = null;
 		String input = scanner.nextLine();
-		String[] parts = input.split("\s");
+		String[] parts = input.split(" ");
 		if (parts.length >= 2) {
 			try {
 				int i = Integer.parseInt(parts[0]);
@@ -47,5 +50,14 @@ public class OthelloCmdLineUI implements OthelloUI {
 			displayMessage("Invalid syntax, please try again!");
 		}
 		return move;
+	}
+
+	@Override
+	public void displayValidMoves(Set<Move> valid) {
+		StringBuilder validMoveString = new StringBuilder();
+		for (Move validMove : valid) {
+			validMoveString.append(moveToString(validMove)).append("\t");
+		}
+		System.out.println("Valid moves are: " + validMoveString);
 	}
 }

@@ -55,7 +55,7 @@ public class CmdLinePlayer implements Player {
 			}
 			if (!isValidMove) {
 				cmdLineUI.displayMessage("Invalid move, please try again!");
-				Constants.printValidMoves(mentalBoardModel, myPlayerColor);
+				cmdLineUI.displayValidMoves(mentalBoardModel.getValidMoves(myPlayerColor));
 			}
 		}
 		mentalBoardModel.doMove(move, myPlayerColor);

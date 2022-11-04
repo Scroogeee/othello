@@ -18,7 +18,7 @@ public class GameGridButton extends Button {
 
 	public GameGridButton() {
 		super();
-		this.setBackground(Background.fill(Color.DARKGREEN));
+		this.setBackground(Background.fill(Color.GREEN));
 	}
 
 	/**
@@ -52,9 +52,7 @@ public class GameGridButton extends Button {
 	 */
 	private void createComponents() {
 		circle = new Circle(getWidth() / 2, getHeight() / 2, 20);
-		circle.setStroke(Color.BLACK);
 		circle.setStrokeWidth(Constants.DEFAULT_STROKE_SIZE);
-		circle.setFill(Color.BLACK);
 		getChildren().add(circle);
 	}
 
