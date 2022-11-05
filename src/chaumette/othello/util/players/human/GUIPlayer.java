@@ -13,6 +13,9 @@ import chaumette.othello.util.board.OthelloOneDimArrayBoard;
 
 import java.util.Random;
 
+/**
+ * Implementation of a Player for a human via a graphical user interface using JavaFX
+ */
 public class GUIPlayer implements Player {
 
 	private final OthelloBoard mentalBoardModel = new OthelloOneDimArrayBoard();
@@ -20,6 +23,11 @@ public class GUIPlayer implements Player {
 	private PlayerColor myPlayerColor;
 	private PlayerColor opponentPlayerColor;
 
+	/**
+	 * Creates a new GUIPlayer storing a reference to the given GUI
+	 *
+	 * @param theGUI the OthelloGUI to use for this GUIPlayer
+	 */
 	public GUIPlayer(OthelloGUI theGUI) {
 		this.othelloGUI = theGUI;
 	}

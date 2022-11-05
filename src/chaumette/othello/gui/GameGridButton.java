@@ -16,6 +16,9 @@ import javafx.scene.shape.Circle;
  */
 public class GameGridButton extends Button {
 
+	/**
+	 * Creates a new GameGridButton with green as the default background color
+	 */
 	public GameGridButton() {
 		super();
 		this.setBackground(Background.fill(Color.GREEN));
@@ -28,6 +31,8 @@ public class GameGridButton extends Button {
 
 	/**
 	 * Sets the symbol displayed on the button according to the given parameter
+	 *
+	 * @param c the playerColor of this cell
 	 */
 	public void setDrawing(PlayerColor c) {
 		if (circle == null) {

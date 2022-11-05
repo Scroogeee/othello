@@ -23,6 +23,9 @@ public class OthelloTwoDimArrayBoard extends OthelloBoard {
 	 */
 	private final PlayerColor[][] data;
 
+	/**
+	 * Creates a new Othello board in a two-dimensional array representation
+	 */
 	public OthelloTwoDimArrayBoard() {
 		super();
 		data = new PlayerColor[BOARD_SIZE][BOARD_SIZE];

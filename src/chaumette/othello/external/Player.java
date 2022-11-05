@@ -47,6 +47,7 @@ public interface Player {
 	 *                  which means the opponent has not moved (or this is the first move).
 	 * @param tOpponent remaining time of the opponent
 	 * @param t         remaining time for this player
+	 * @return the move selected by the player
 	 */
 	Move nextMove(Move prevMove, long tOpponent, long t);
 }

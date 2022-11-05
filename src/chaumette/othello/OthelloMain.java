@@ -19,6 +19,10 @@ import java.util.Random;
 import static chaumette.othello.util.PlayerColor.BLACK;
 import static chaumette.othello.util.PlayerColor.WHITE;
 
+/**
+ * The main class which brings together an OthelloBoard, some OthelloUI and Players to
+ * play a game of Othello
+ */
 public class OthelloMain extends Application {
 
 	private final long timeBlack = 8000;
@@ -36,9 +40,12 @@ public class OthelloMain extends Application {
 	private OthelloGUI theGUI;
 	private List<Task<PlayerColor>> startedWorkers;
 
+	/**
+	 * @param args command line arguments
+	 */
 	public static void main(String[] args) {
 		System.out.println("Hello othello!");
-		Application.launch();
+		Application.launch(args);
 	}
 
 	@Override
@@ -122,6 +129,9 @@ public class OthelloMain extends Application {
 	}
 
 
+	/**
+	 * Switches to the next player (based on the current one)
+	 */
 	public void nextPlayer() {
 		switch (currentPlayerColor) {
 			case BLACK -> currentPlayerColor = WHITE;

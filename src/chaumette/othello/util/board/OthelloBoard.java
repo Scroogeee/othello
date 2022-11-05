@@ -54,6 +54,9 @@ public abstract class OthelloBoard {
 	/**
 	 * Tries to do a given move. (Doesn't check if it's player's turn!!)
 	 * Throws an InvalidMoveException if the move is invalid.
+	 *
+	 * @param m the Move to do
+	 * @param c the color of the current player
 	 */
 	public final void doMove(Move m, PlayerColor c) {
 		Set<Move> toFlip = getSideEffects(m, c);
@@ -65,9 +68,7 @@ public abstract class OthelloBoard {
 			}
 			flipColorOfCells(toFlip);
 		} else {
-			System.out.println("Move " + m.x + "/" + m.y +
-					" for Player " + c.ordinal() + " is invalid." +
-					"\n" + "Board state is \n" + this);
+			System.out.println("Move " + m.x + "/" + m.y + " for Player " + c.ordinal() + " is invalid." + "\n" + "Board state is \n" + this);
 			throw new InvalidMoveException("Invalid move");
 		}
 	}
@@ -76,6 +77,8 @@ public abstract class OthelloBoard {
 	 * Move is considered valid if the cell in question is empty,
 	 * and placing the given color would cause at least one cell to flip.
 	 *
+	 * @param m the Move to check
+	 * @param c the color of the current player
 	 * @return if the given move given the current player color would be valid
 	 */
 	public final boolean isValidMove(Move m, PlayerColor c) {
@@ -83,6 +86,7 @@ public abstract class OthelloBoard {
 	}
 
 	/**
+	 * @param c the player color to check
 	 * @return if the given player has any valid move
 	 */
 	public final boolean canDoValidMove(PlayerColor c) {
@@ -90,6 +94,7 @@ public abstract class OthelloBoard {
 	}
 
 	/**
+	 * @param c the current player color
 	 * @return all valid moves for the given player
 	 */
 	public final Set<Move> getValidMoves(PlayerColor c) {
@@ -131,6 +136,8 @@ public abstract class OthelloBoard {
 
 	/**
 	 * Flips all cell colors at the given locations
+	 *
+	 * @param sideEffects a set of all cells which should be flipped
 	 */
 	protected final void flipColorOfCells(Set<Move> sideEffects) {
 		for (Move move : sideEffects) {
@@ -151,7 +158,9 @@ public abstract class OthelloBoard {
 	}
 
 	/**
-	 * Returns all board cells from the given point (inclusive) outwards in the given direction
+	 * @param from             starting point for the projections
+	 * @param projectionVector direction in which to project
+	 * @return all board cells from the given point (inclusive) outwards in the given direction
 	 */
 	public final Move[] getProjection(Move from, Move projectionVector) {
 		List<Move> toReturn = new ArrayList<>();
@@ -166,12 +175,18 @@ public abstract class OthelloBoard {
 	}
 
 	/**
-	 * Sets the value of the given board cell to the given Color (without checks)!
+	 * @param m the cell to set to the given color
+	 * @param c the color to set the given cell to
+	 *          <p>
+	 *          Sets the value of the given board cell to the given Color (without checks)!
 	 */
 	protected abstract void setCell(Move m, PlayerColor c);
 
 	/**
 	 * Returns the color of a given cell
+	 *
+	 * @param m a Move object containing the coordinates of the cell
+	 * @return the cell color of the given cell
 	 */
 	public final PlayerColor getCellColor(Move m) {
 		return getCellColor(m.x, m.y);
@@ -179,11 +194,21 @@ public abstract class OthelloBoard {
 
 	/**
 	 * Returns the color of a given cell
+	 *
+	 * @param x the x value of the cell (horizontal to the right counting from 0)
+	 * @param y the y value of the cell (vertical downwards counting from 0)
+	 * @return the cell color of the given cell
 	 */
 	public abstract PlayerColor getCellColor(int x, int y);
 
 	/**
-	 * @return a List of all the side effect (aka flipping stones)
+	 * Computes and returns a Set of all the side effect (aka flipping stones)
+	 * a given Move would have for the given PlayerColor.
+	 * If the size of this Set is 0, the move is invalid.
+	 *
+	 * @param currentPlayer the color of the current player
+	 * @param m             the move to check for side effects
+	 * @return a Set of all the side effect (aka flipping stones)
 	 * a Move would have. If its size is 0, the move is invalid.
 	 */
 	protected final Set<Move> getSideEffects(Move m, PlayerColor currentPlayer) {

@@ -14,6 +14,9 @@ import chaumette.othello.util.board.OthelloOneDimArrayBoard;
 
 import java.util.Random;
 
+/**
+ * Implementation of a Player for a human using the command line
+ */
 public class CmdLinePlayer implements Player {
 
 	private final OthelloBoard mentalBoardModel = new OthelloOneDimArrayBoard();

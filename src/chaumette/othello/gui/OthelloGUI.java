@@ -21,6 +21,9 @@ import java.util.Set;
 
 import static chaumette.othello.util.Constants.BOARD_SIZE;
 
+/**
+ * Represents a OthelloUI with a graphical user interface
+ */
 public class OthelloGUI implements OthelloUI {
 
 	private final Stage theStage;
@@ -40,6 +43,11 @@ public class OthelloGUI implements OthelloUI {
 	private Move moveRequest;
 	private boolean allowMoveRequest;
 
+	/**
+	 * Creates a new OthelloGUI with the given Stage as the primary stage
+	 *
+	 * @param primaryStage the stage to use as primary stage
+	 */
 	public OthelloGUI(Stage primaryStage) {
 		super();
 		theStage = primaryStage;

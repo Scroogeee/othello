@@ -14,14 +14,25 @@ import chaumette.othello.util.board.OthelloOneDimArrayBoard;
 import java.util.ArrayList;
 import java.util.Random;
 
+/**
+ * Othello AI that makes random but valid moves
+ */
 public class RandomAI implements Player {
 
 	private final boolean writeLog;
 
+	/**
+	 * Creates a new random AI
+	 */
 	public RandomAI() {
 		this.writeLog = false;
 	}
 
+	/**
+	 * Creates a new random AI
+	 *
+	 * @param writeLog if the AI should write out log messages
+	 */
 	public RandomAI(boolean writeLog) {
 		this.writeLog = writeLog;
 	}

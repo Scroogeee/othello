@@ -13,6 +13,7 @@ import java.util.Set;
 
 import static chaumette.othello.util.Constants.moveToString;
 
+/***/
 public class OthelloCmdLineUI implements OthelloUI {
 
 	private final Scanner scanner = new Scanner(System.in);

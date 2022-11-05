@@ -15,6 +15,9 @@ import java.util.*;
 import static chaumette.othello.util.Constants.moveToString;
 import static chaumette.othello.util.PlayerColor.*;
 
+/**
+ * An OthelloTester is a dummy class used to test the capabilities of an OthelloBoard
+ */
 public class OthelloTester implements Runnable {
 	private final OthelloBoard board = new OthelloOneDimArrayBoard();
 	private final Scanner scanner = new Scanner(System.in);
@@ -22,6 +25,11 @@ public class OthelloTester implements Runnable {
 	private final Map<PlayerColor, PlayerType> playerColorToPlayerType;
 	private TestMode testMode;
 
+	/**
+	 * Creates a new OthelloTester with the given arguments
+	 *
+	 * @param args command line arguments
+	 */
 	public OthelloTester(String[] args) {
 		playerColorToPlayerType = new HashMap<>();
 		if (args.length == 1) {
@@ -55,6 +63,11 @@ public class OthelloTester implements Runnable {
 		}
 	}
 
+	/**
+	 * Runs a new OthelloTester
+	 *
+	 * @param args command line arguments
+	 */
 	public static void main(String[] args) {
 		new OthelloTester(args).run();
 	}
@@ -123,6 +136,12 @@ public class OthelloTester implements Runnable {
 		}
 	}
 
+	/**
+	 * Computes the next player
+	 *
+	 * @param current the current player
+	 * @return the next player
+	 */
 	public PlayerColor nextPlayer(PlayerColor current) {
 		switch (current) {
 			case BLACK -> {
