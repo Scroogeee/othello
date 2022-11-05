@@ -45,12 +45,13 @@ public class GUIPlayer implements Player {
 			mentalBoardModel.doMove(prevMove, opponentPlayerColor);
 		}
 		Move toReturn = null;
-		while (toReturn == null) {
-			toReturn = othelloGUI.askUserForMove();
+		while (toReturn == null && !Thread.currentThread().isInterrupted()) {
+			toReturn = othelloGUI.askUserForMove(myPlayerColor);
 			if (!mentalBoardModel.isValidMove(toReturn, myPlayerColor)) {
 				toReturn = null;
 			}
 		}
+		mentalBoardModel.doMove(toReturn, myPlayerColor);
 		return toReturn;
 	}
 }

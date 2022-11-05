@@ -33,7 +33,7 @@ public class OthelloCmdLineUI implements OthelloUI {
 	}
 
 	@Override
-	public Move askUserForMove() {
+	public Move askUserForMove(PlayerColor color) {
 		Move move = null;
 		String input = scanner.nextLine();
 		String[] parts = input.split(" ");

@@ -49,7 +49,7 @@ public class CmdLinePlayer implements Player {
 		boolean isValidMove = false;
 		while (!isValidMove) {
 			cmdLineUI.displayMessage("Player " + myPlayerColor.ordinal() + ", please make a move!");
-			move = cmdLineUI.askUserForMove();
+			move = cmdLineUI.askUserForMove(myPlayerColor);
 			if (move != null) {
 				isValidMove = mentalBoardModel.isValidMove(move, myPlayerColor);
 			}

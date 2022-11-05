@@ -37,6 +37,9 @@ public class OthelloGUI implements OthelloUI {
 	 */
 	private Label helpText;
 
+	private Move moveRequest;
+	private boolean allowMoveRequest;
+
 	public OthelloGUI(Stage primaryStage) {
 		super();
 		theStage = primaryStage;
@@ -60,6 +63,7 @@ public class OthelloGUI implements OthelloUI {
 		primaryScene = new Scene(mainPane);
 		theStage.setScene(primaryScene);
 		theStage.show();
+		theStage.setOnCloseRequest(event -> Platform.exit());
 	}
 
 	@Override
@@ -77,9 +81,19 @@ public class OthelloGUI implements OthelloUI {
 	}
 
 	@Override
-	public Move askUserForMove() {
-		//TODO implement
-		return null;
+	public Move askUserForMove(PlayerColor playerColor) {
+		displayMessage("Player " + playerColor + ", please make a move!!");
+		allowMoveRequest = true;
+		while (moveRequest == null && !Thread.currentThread().isInterrupted()) {
+			try {
+				Thread.sleep(500);
+			} catch (InterruptedException e) {
+				throw new RuntimeException(e);
+			}
+		}
+		Move toReturn = moveRequest;
+		moveRequest = null;
+		return toReturn;
 	}
 
 	@Override
@@ -111,7 +125,10 @@ public class OthelloGUI implements OthelloUI {
 				btn.setBorder(Border.stroke(Color.BLACK));
 				btn.setPrefSize(100, 100);
 				btn.addEventHandler(ActionEvent.ACTION, event -> {
-					//TODO add some onUserMoveRequest handling logic
+					if (allowMoveRequest) {
+						moveRequest = m;
+						allowMoveRequest = false;
+					}
 				});
 				gameGrid.add(btn, x, y);
 				buttonsGrid[x * BOARD_SIZE + y] = btn;

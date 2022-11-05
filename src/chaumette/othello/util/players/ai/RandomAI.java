@@ -52,7 +52,12 @@ public class RandomAI implements Player {
 		if (prevMove != null) {
 			mentalBoardModel.doMove(prevMove, opponentPlayerColor);
 		}
-
+		try {
+			//Busy waiting -- sorry
+			Thread.sleep(Constants.MOVE_DELAY);
+		} catch (InterruptedException e) {
+			throw new RuntimeException(e);
+		}
 		ArrayList<Move> possibleMoves = new ArrayList<>(mentalBoardModel.getValidMoves(myPlayerColor));
 		if (possibleMoves.size() == 0) {
 			//pass the turn

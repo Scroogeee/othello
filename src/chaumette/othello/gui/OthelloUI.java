@@ -21,7 +21,7 @@ public interface OthelloUI {
 	/**
 	 * Asks the user for a move and returns it (without checks)
 	 */
-	Move askUserForMove();
+	Move askUserForMove(PlayerColor playerColor);
 
 	void displayValidMoves(Set<Move> valid, PlayerColor c);
 }
