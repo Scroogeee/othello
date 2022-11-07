@@ -72,6 +72,7 @@ public class OthelloGUI implements OthelloUI {
 		theStage.setScene(primaryScene);
 		theStage.show();
 		theStage.setOnCloseRequest(event -> Platform.exit());
+		theStage.setResizable(false);
 	}
 
 	@Override

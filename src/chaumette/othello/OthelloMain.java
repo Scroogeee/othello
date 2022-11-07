@@ -58,6 +58,7 @@ public class OthelloMain extends Application {
 
 		playerBlack = new GUIPlayer(theGUI);
 		playerWhite = new GUIPlayer(theGUI);
+		//playerWhite = new RandomAI();
 
 		colorToPlayer.put(BLACK, playerBlack);
 		colorToPlayer.put(WHITE, playerWhite);
@@ -99,6 +100,7 @@ public class OthelloMain extends Application {
 						}
 					} else {
 						prevMove = colorToPlayer.get(currentPlayerColor).nextMove(prevMove, opponentTime, selfTime);
+						//expecting null move
 					}
 					nextPlayer();
 				}
