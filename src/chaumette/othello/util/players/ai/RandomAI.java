@@ -55,7 +55,7 @@ public class RandomAI implements Player {
 			}
 		}
 		theRandom = rnd;
-		mentalBoardModel.init();
+		mentalBoardModel.resetAndInit();
 	}
 
 	@Override
@@ -64,7 +64,7 @@ public class RandomAI implements Player {
 			mentalBoardModel.doMove(prevMove, opponentPlayerColor);
 		}
 		try {
-			//Busy waiting -- sorry
+			//Simulate AI thinking
 			Thread.sleep(Constants.MOVE_DELAY);
 		} catch (InterruptedException e) {
 			throw new RuntimeException(e);

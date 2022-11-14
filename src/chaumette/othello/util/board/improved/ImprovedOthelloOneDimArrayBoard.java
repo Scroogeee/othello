@@ -2,19 +2,16 @@
  * @author scrooge
  */
 
-package chaumette.othello.util.board;
+package chaumette.othello.util.board.improved;
 
-import chaumette.othello.external.Move;
+import chaumette.othello.util.ImprovedMove;
 import chaumette.othello.util.PlayerColor;
 
 import java.util.Arrays;
 
 import static chaumette.othello.util.Constants.BOARD_SIZE;
 
-/**
- * The implementation of an othello board via a one-dimensional array
- */
-public class OthelloOneDimArrayBoard extends OthelloBoard {
+public class ImprovedOthelloOneDimArrayBoard extends ImprovedOthelloBoard {
 
 	/**
 	 * Contains the data of the board in a one-dimensional array
@@ -27,7 +24,7 @@ public class OthelloOneDimArrayBoard extends OthelloBoard {
 	 * Constructs a new OthelloBoard with specified x and y sizes
 	 * in the one-dimensional array implementation
 	 */
-	public OthelloOneDimArrayBoard() {
+	public ImprovedOthelloOneDimArrayBoard() {
 		super();
 		data = new PlayerColor[BOARD_SIZE * BOARD_SIZE];
 	}
@@ -36,7 +33,7 @@ public class OthelloOneDimArrayBoard extends OthelloBoard {
 	 * Constructs a new OthelloBoard with the given array as data.
 	 * in the one-dimensional array implementation
 	 */
-	public OthelloOneDimArrayBoard(PlayerColor[] data) {
+	public ImprovedOthelloOneDimArrayBoard(PlayerColor[] data) {
 		super();
 		this.data = new PlayerColor[data.length];
 		System.arraycopy(data, 0, this.data, 0, data.length);
@@ -52,8 +49,8 @@ public class OthelloOneDimArrayBoard extends OthelloBoard {
 	}
 
 	@Override
-	protected void setCell(Move m, PlayerColor c) {
-		data[m.x * BOARD_SIZE + m.y] = c;
+	protected void setCell(ImprovedMove m) {
+		data[m.x * BOARD_SIZE + m.y] = m.getMadeBy();
 	}
 
 	@Override
@@ -61,4 +58,10 @@ public class OthelloOneDimArrayBoard extends OthelloBoard {
 		return data[x * BOARD_SIZE + y];
 	}
 
+	@Override
+	public ImprovedOthelloBoard simulate(ImprovedMove move) {
+		ImprovedOthelloBoard toReturn = new ImprovedOthelloOneDimArrayBoard(data);
+		toReturn.doMove(move);
+		return toReturn;
+	}
 }

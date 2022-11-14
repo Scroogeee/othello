@@ -28,7 +28,7 @@ public class Constants {
 	/**
 	 * Delay used for AIs to simulate thinking
 	 */
-	public static final long MOVE_DELAY = 1000;
+	public static final long MOVE_DELAY = 100;
 
 	/**
 	 * Converts data of a Move into a human-readable String representation

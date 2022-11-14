@@ -15,6 +15,7 @@ import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
 import java.util.Set;
@@ -120,6 +121,7 @@ public class OthelloGUI implements OthelloUI {
 	private GridPane createTopGrid() {
 		GridPane topGrid = new GridPane();
 		helpText = new Label("Some help text");
+		helpText.setFont(new Font("Arial", 28));
 		topGrid.add(helpText, 0, 0);
 		return topGrid;
 	}

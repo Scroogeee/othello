@@ -32,7 +32,7 @@ public class OthelloTwoDimArrayBoard extends OthelloBoard {
 	}
 
 	@Override
-	public void init() {
+	public void resetAndInit() {
 		for (PlayerColor[] datum : data) {
 			Arrays.fill(datum, PlayerColor.EMPTY);
 		}

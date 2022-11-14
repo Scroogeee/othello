@@ -37,7 +37,7 @@ public class CmdLinePlayer implements Player {
 				opponentPlayerColor = PlayerColor.BLACK;
 			}
 		}
-		mentalBoardModel.init();
+		mentalBoardModel.resetAndInit();
 	}
 
 	@Override

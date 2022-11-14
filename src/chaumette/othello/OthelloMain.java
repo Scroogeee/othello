@@ -6,6 +6,8 @@ import chaumette.othello.gui.OthelloGUI;
 import chaumette.othello.util.PlayerColor;
 import chaumette.othello.util.board.OthelloBoard;
 import chaumette.othello.util.board.OthelloOneDimArrayBoard;
+import chaumette.othello.util.players.ai.GreedyLimitMoveAI;
+import chaumette.othello.util.players.ai.RandomAI;
 import chaumette.othello.util.players.human.GUIPlayer;
 import javafx.application.Application;
 import javafx.concurrent.Task;
@@ -50,15 +52,14 @@ public class OthelloMain extends Application {
 
 	@Override
 	public void start(Stage primaryStage) {
-		theBoard.init();
+		theBoard.resetAndInit();
 
 		theGUI = new OthelloGUI(primaryStage);
 		theGUI.initUI();
 		theGUI.displayBoardState(theBoard);
 
-		playerBlack = new GUIPlayer(theGUI);
-		playerWhite = new GUIPlayer(theGUI);
-		//playerWhite = new RandomAI();
+		playerBlack = new RandomAI();
+		playerWhite = new GreedyLimitMoveAI();
 
 		colorToPlayer.put(BLACK, playerBlack);
 		colorToPlayer.put(WHITE, playerWhite);
@@ -75,10 +76,8 @@ public class OthelloMain extends Application {
 				theGUI.displayMessage("Welcome to Othello!");
 				while (!theBoard.isGameOver()) {
 					theGUI.displayBoardState(theBoard);
-					if (colorToPlayer.get(currentPlayerColor) instanceof GUIPlayer) {
-						//only display for human players
-						theGUI.displayValidMoves(theBoard.getValidMoves(currentPlayerColor), currentPlayerColor);
-					} else {
+					theGUI.displayValidMoves(theBoard.getValidMoves(currentPlayerColor), currentPlayerColor);
+					if (!(colorToPlayer.get(currentPlayerColor) instanceof GUIPlayer)) {
 						theGUI.displayMessage("AI is thinking...");
 					}
 					long selfTime = 0, opponentTime = 0;
@@ -105,6 +104,7 @@ public class OthelloMain extends Application {
 					nextPlayer();
 				}
 				theGUI.displayBoardState(theBoard);
+				System.out.println(theBoard);
 				PlayerColor winner = theBoard.getWinner();
 				theGUI.displayMessage("Winner is " + winner);
 				return theBoard.getWinner();
@@ -113,6 +113,9 @@ public class OthelloMain extends Application {
 		Thread gameLoopThread = new Thread(gameLoop);
 		gameLoopThread.start();
 		startedWorkers.add(gameLoop);
+		gameLoop.setOnSucceeded(event -> {
+			System.out.println("Succeded");
+		});
 	}
 
 	@Override

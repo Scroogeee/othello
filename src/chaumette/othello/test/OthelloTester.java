@@ -75,7 +75,7 @@ public class OthelloTester implements Runnable {
 	@Override
 	public void run() {
 		PlayerColor currentPlayer = BLACK;
-		board.init();
+		board.resetAndInit();
 		while (!board.isGameOver()) {
 			System.out.println("It's player " + currentPlayer.ordinal() + "'s turn!");
 			System.out.println(board);

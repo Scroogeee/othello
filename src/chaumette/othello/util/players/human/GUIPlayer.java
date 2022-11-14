@@ -7,6 +7,7 @@ package chaumette.othello.util.players.human;
 import chaumette.othello.external.Move;
 import chaumette.othello.external.Player;
 import chaumette.othello.gui.OthelloGUI;
+import chaumette.othello.util.Constants;
 import chaumette.othello.util.PlayerColor;
 import chaumette.othello.util.board.OthelloBoard;
 import chaumette.othello.util.board.OthelloOneDimArrayBoard;
@@ -44,7 +45,7 @@ public class GUIPlayer implements Player {
 				opponentPlayerColor = PlayerColor.BLACK;
 			}
 		}
-		mentalBoardModel.init();
+		mentalBoardModel.resetAndInit();
 	}
 
 	@Override
@@ -53,6 +54,7 @@ public class GUIPlayer implements Player {
 			mentalBoardModel.doMove(prevMove, opponentPlayerColor);
 		}
 		Move toReturn = null;
+
 		if (!mentalBoardModel.getValidMoves(myPlayerColor).isEmpty()) {
 			while (toReturn == null && !Thread.currentThread().isInterrupted()) {
 				toReturn = othelloGUI.askUserForMove(myPlayerColor);
@@ -63,6 +65,13 @@ public class GUIPlayer implements Player {
 			mentalBoardModel.doMove(toReturn, myPlayerColor);
 		} else {
 			othelloGUI.displayMessage("No possible move, skipping!");
+			try {
+				//Simulate AI thinking
+				Thread.sleep(Constants.MOVE_DELAY);
+			} catch (InterruptedException e) {
+				System.out.println("Interrupted exception");
+				throw new RuntimeException(e);
+			}
 		}
 		return toReturn;
 	}

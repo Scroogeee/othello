@@ -2,24 +2,34 @@
  * @author scrooge
  */
 
-package chaumette.othello.util.board;
+package chaumette.othello.util.board.improved;
 
-import chaumette.othello.external.Move;
+import chaumette.othello.util.ImprovedMove;
 import chaumette.othello.util.InvalidMoveException;
 import chaumette.othello.util.PlayerColor;
 
 import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
 import static chaumette.othello.util.Constants.BOARD_SIZE;
 import static chaumette.othello.util.Constants.NUM_DIRECTIONS;
+import static chaumette.othello.util.PlayerColor.BLACK;
+import static chaumette.othello.util.PlayerColor.WHITE;
 
 /**
  * Represents an othello board as a data structure
  */
-public abstract class OthelloBoard {
+public abstract class ImprovedOthelloBoard {
+
+	/**
+	 * The current score of the white player
+	 */
+	protected int whiteScore = 2;
+	/**
+	 * The current score of the black player
+	 */
+	protected int blackScore = 2;
 
 	/**
 	 * @return the whiteScore
@@ -29,21 +39,11 @@ public abstract class OthelloBoard {
 	}
 
 	/**
-	 * The current score of the white player
-	 */
-	protected int whiteScore = 2;
-
-	/**
 	 * @return the blackScore
 	 */
 	public final int getBlackScore() {
 		return blackScore;
 	}
-
-	/**
-	 * The current score of the black player
-	 */
-	protected int blackScore = 2;
 
 	/**
 	 * Initializes the board with the white and black pieces at the center
@@ -55,19 +55,19 @@ public abstract class OthelloBoard {
 	 * Throws an InvalidMoveException if the move is invalid.
 	 *
 	 * @param m the Move to do
-	 * @param c the color of the current player
 	 */
-	public final void doMove(Move m, PlayerColor c) {
-		Set<Move> toFlip = getSideEffects(m, c);
-		if (isValidMove(m, c)) {
-			setCell(m, c);
-			switch (c) {
+	public final void doMove(ImprovedMove m) {
+		SortedSet<ImprovedMove> toFlip = getSideEffects(m);
+		if (isValidMove(m)) {
+			setCell(m);
+			switch (m.getMadeBy()) {
 				case BLACK -> blackScore++;
 				case WHITE -> whiteScore++;
 			}
 			flipColorOfCells(toFlip);
 		} else {
-			System.out.println("Move " + m.x + "/" + m.y + " for Player " + c.ordinal() + " is invalid." + "\n" + "Board state is \n" + this);
+			System.out.println("Move " + m.x + "/" + m.y + " for Player " + m.getMadeBy().ordinal() +
+					" is invalid." + "\n" + "Board state is \n" + this);
 			throw new InvalidMoveException("Invalid move");
 		}
 	}
@@ -77,11 +77,10 @@ public abstract class OthelloBoard {
 	 * and placing the given color would cause at least one cell to flip.
 	 *
 	 * @param m the Move to check
-	 * @param c the color of the current player
 	 * @return if the given move given the current player color would be valid
 	 */
-	public final boolean isValidMove(Move m, PlayerColor c) {
-		return getCellColor(m) == PlayerColor.EMPTY && !getSideEffects(m, c).isEmpty();
+	public final boolean isValidMove(ImprovedMove m) {
+		return getCellColor(m) == PlayerColor.EMPTY && !getSideEffects(m).isEmpty();
 	}
 
 	/**
@@ -96,12 +95,12 @@ public abstract class OthelloBoard {
 	 * @param c the current player color
 	 * @return all valid moves for the given player
 	 */
-	public final Set<Move> getValidMoves(PlayerColor c) {
-		Set<Move> validMoves = new HashSet<>();
+	public final SortedSet<ImprovedMove> getValidMoves(PlayerColor c) {
+		SortedSet<ImprovedMove> validMoves = new TreeSet<>();
 		for (int i = 0; i < BOARD_SIZE; i++) {
 			for (int j = 0; j < BOARD_SIZE; j++) {
-				Move move = new Move(i, j);
-				if (isValidMove(move, c)) {
+				ImprovedMove move = new ImprovedMove(i, j, c);
+				if (isValidMove(move)) {
 					validMoves.add(move);
 				}
 			}
@@ -113,7 +112,7 @@ public abstract class OthelloBoard {
 	 * @return if both players don't have any valid moves to do
 	 */
 	public final boolean isGameOver() {
-		return !canDoValidMove(PlayerColor.WHITE) && !canDoValidMove(PlayerColor.BLACK);
+		return !canDoValidMove(WHITE) && !canDoValidMove(BLACK);
 	}
 
 	/**
@@ -122,9 +121,9 @@ public abstract class OthelloBoard {
 	public final PlayerColor getWinner() {
 		if (isGameOver()) {
 			if (whiteScore > blackScore) {
-				return PlayerColor.WHITE;
+				return WHITE;
 			} else if (blackScore > whiteScore) {
-				return PlayerColor.BLACK;
+				return BLACK;
 			} else {
 				return PlayerColor.EMPTY;
 			}
@@ -138,16 +137,16 @@ public abstract class OthelloBoard {
 	 *
 	 * @param sideEffects a set of all cells which should be flipped
 	 */
-	protected final void flipColorOfCells(Set<Move> sideEffects) {
-		for (Move move : sideEffects) {
+	protected final void flipColorOfCells(SortedSet<ImprovedMove> sideEffects) {
+		for (ImprovedMove move : sideEffects) {
 			switch (getCellColor(move)) {
 				case BLACK -> {
-					setCell(move, PlayerColor.WHITE);
+					setCell(move);
 					blackScore--;
 					whiteScore++;
 				}
 				case WHITE -> {
-					setCell(move, PlayerColor.BLACK);
+					setCell(move);
 					whiteScore--;
 					blackScore++;
 				}
@@ -161,25 +160,17 @@ public abstract class OthelloBoard {
 	 * @param projectionVector direction in which to project
 	 * @return all board cells from the given point (inclusive) outwards in the given direction
 	 */
-	public final Move[] getProjection(Move from, Move projectionVector) {
-		List<Move> toReturn = new ArrayList<>();
+	public final ImprovedMove[] getProjection(ImprovedMove from, ImprovedMove projectionVector) {
+		ArrayList<ImprovedMove> toReturn = new ArrayList<>();
 		int currentX = from.x;
 		int currentY = from.y;
 		while ((0 <= currentX && currentX < BOARD_SIZE) && (0 <= currentY && currentY < BOARD_SIZE)) {
-			toReturn.add(new Move(currentX, currentY));
+			toReturn.add(new ImprovedMove(currentX, currentY, projectionVector.getMadeBy()));
 			currentX += projectionVector.x;
 			currentY += projectionVector.y;
 		}
-		return toReturn.toArray(new Move[0]);
+		return toReturn.toArray(new ImprovedMove[0]);
 	}
-
-	/**
-	 * @param m the cell to set to the given color
-	 * @param c the color to set the given cell to
-	 *          <p>
-	 *          Sets the value of the given board cell to the given Color (without checks)!
-	 */
-	protected abstract void setCell(Move m, PlayerColor c);
 
 	/**
 	 * Returns the color of a given cell
@@ -187,9 +178,14 @@ public abstract class OthelloBoard {
 	 * @param m a Move object containing the coordinates of the cell
 	 * @return the cell color of the given cell
 	 */
-	public final PlayerColor getCellColor(Move m) {
+	public final PlayerColor getCellColor(ImprovedMove m) {
 		return getCellColor(m.x, m.y);
 	}
+
+	/**
+	 * @param m the cell to set to the given color
+	 */
+	protected abstract void setCell(ImprovedMove m);
 
 	/**
 	 * Returns the color of a given cell
@@ -205,37 +201,36 @@ public abstract class OthelloBoard {
 	 * a given Move would have for the given PlayerColor.
 	 * If the size of this Set is 0, the move is invalid.
 	 *
-	 * @param currentPlayer the color of the current player
-	 * @param m             the move to check for side effects
+	 * @param m the move to check for side effects
 	 * @return a Set of all the side effect (aka flipping stones)
 	 * a Move would have. If its size is 0, the move is invalid.
 	 */
-	protected Set<Move> getSideEffects(Move m, PlayerColor currentPlayer) {
-		Set<Move> sideEffects = new HashSet<>();
-		Move[][] projections = new Move[NUM_DIRECTIONS][];
+	protected SortedSet<ImprovedMove> getSideEffects(ImprovedMove m) {
+		SortedSet<ImprovedMove> sideEffects = new TreeSet<>();
+		ImprovedMove[][] projections = new ImprovedMove[NUM_DIRECTIONS][];
 		int counter = 0;
 		for (int xStep = -1; xStep <= 1; xStep++) {
 			for (int yStep = -1; yStep <= 1; yStep++) {
 				if (xStep == 0 && yStep == 0) {
 					continue;
 				}
-				projections[counter] = getProjection(m, new Move(xStep, yStep));
+				projections[counter] = getProjection(m, new ImprovedMove(xStep, yStep, m.getMadeBy()));
 				counter++;
 			}
 		}
-		for (Move[] projection : projections) {
-			List<Move> potentialSideEffects = new ArrayList<>();
-			boolean validProjectionEnd = false;
+		for (ImprovedMove[] projection : projections) {
+			SortedSet<ImprovedMove> potentialSideEffects = new TreeSet<>();
+			boolean isValidProjectionEnd = false;
 			for (int i = 1; i < projection.length; i++) {
 				if (getCellColor(projection[i]) == PlayerColor.EMPTY) {
 					break;
-				} else if (getCellColor(projection[i]) == currentPlayer) {
-					validProjectionEnd = true;
+				} else if (getCellColor(projection[i]) == m.getMadeBy()) {
+					isValidProjectionEnd = true;
 					break;
 				}
 				potentialSideEffects.add(projection[i]);
 			}
-			if (validProjectionEnd) {
+			if (isValidProjectionEnd) {
 				sideEffects.addAll(potentialSideEffects);
 			}
 		}
@@ -254,4 +249,9 @@ public abstract class OthelloBoard {
 		representation.deleteCharAt(representation.lastIndexOf("\n"));
 		return representation.toString();
 	}
+
+	/**
+	 * Returns a copy of this board with the simulated move played, or null if move is invalid
+	 */
+	public abstract ImprovedOthelloBoard simulate(ImprovedMove move);
 }
