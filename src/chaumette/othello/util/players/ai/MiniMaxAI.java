@@ -5,14 +5,14 @@
 package chaumette.othello.util.players.ai;
 
 
-import szte.mi.Move;
-import szte.mi.Player;
 import chaumette.othello.util.Constants;
 import chaumette.othello.util.ImprovedMove;
 import chaumette.othello.util.PlayerColor;
 import chaumette.othello.util.board.improved.ImprovedOthelloBoard;
 import chaumette.othello.util.board.improved.ImprovedOthelloOneDimArrayBoard;
 import chaumette.othello.util.board.tree.OthelloBoardTreeNode;
+import szte.mi.Move;
+import szte.mi.Player;
 
 import java.util.Random;
 
@@ -20,7 +20,7 @@ import java.util.Random;
  * This AI always tries to maximise the score for the current player's turn,
  * simulating a few turns into the future
  */
-public class MaxMaxAI implements Player {
+public class MiniMaxAI implements Player {
 
 	private OthelloBoardTreeNode rootNode;
 	private PlayerColor myPlayerColor;
@@ -50,11 +50,13 @@ public class MaxMaxAI implements Player {
 		ImprovedOthelloOneDimArrayBoard mentalBoardModel = new ImprovedOthelloOneDimArrayBoard();
 		mentalBoardModel.resetAndInit();
 		rootNode = new OthelloBoardTreeNode(mentalBoardModel, PlayerColor.BLACK);
-		rootNode.populateMoveMap(MaxMaxAI.search_depth);
+		rootNode.populateMoveMap(MiniMaxAI.search_depth);
 	}
 
 	@Override
 	public Move nextMove(Move prevMove, long tOpponent, long t) {
+		rootNode.populateMoveMap(1);
+
 		if (prevMove != null) { //simulate Opponent Move
 			ImprovedMove opponentMove = new ImprovedMove(prevMove, opponentPlayerColor);
 			rootNode = rootNode.getNextState(opponentMove);
@@ -63,7 +65,8 @@ public class MaxMaxAI implements Player {
 			//else, simulate opponent passing the turn in our game tree
 			rootNode = rootNode.getNextState(null);
 		}
-		rootNode.populateMoveMap(search_depth);
+
+		rootNode.populateMoveMap(search_depth + 1);
 
 		try {
 			//Simulate AI thinking
@@ -72,13 +75,29 @@ public class MaxMaxAI implements Player {
 			throw new RuntimeException(e);
 		}
 
-		//TODO apply maxmax on the tree
-		//TODO simulate the move
+		ImprovedMove toMake = miniMaxDecision();
+		rootNode = rootNode.getNextState(toMake);
 
 		if (isFirstTurn) { // if we are in first turn, set marker to false
 			isFirstTurn = false;
 		}
-		//TODO return the move
+
+		return toMake;
+	}
+
+	private ImprovedMove miniMaxDecision() {
+		ImprovedOthelloBoard currentBoard = rootNode.getBoard();
+		ImprovedMove toMake = null;
+		int score;
+		int bestScore = Integer.MIN_VALUE;
+		for (ImprovedMove m : currentBoard.getValidMoves(myPlayerColor)) {
+			score = scoreByMiniMax(rootNode.getNextState(m), search_depth);
+			if (score > bestScore) {
+				toMake = m;
+				bestScore = score;
+			}
+		}
+		return toMake;
 	}
 
 	private int scoreState(ImprovedOthelloBoard boardState, PlayerColor currentPlayerColor) {
@@ -90,20 +109,31 @@ public class MaxMaxAI implements Player {
 		}
 	}
 
-	private int scoreByMaxMax(OthelloBoardTreeNode gameState) {
+	private int scoreByMiniMax(OthelloBoardTreeNode gameState, int depth) {
 		PlayerColor winner = gameState.getBoard().getWinner();
-		if (winner != null) {
+		if (winner != null) { //Terminal test (winning)
 			if (winner == myPlayerColor) {
 				return Integer.MAX_VALUE; //winning is good
 			} else if (winner == opponentPlayerColor) {
 				return Integer.MIN_VALUE; //losing is bad
 			}
 		}
-		for (ImprovedMove m : gameState.getBoard().getValidMoves(gameState.getCurrentPlayerColor())) {
-			//TODO actually score by MaxMax
-			//if scoreState of the state after the move is better
-			//save the new score for returning
+		PlayerColor current = gameState.getCurrentPlayerColor();
+		if (depth == 0) { //Terminal test (search depth)
+			return scoreState(gameState.getBoard(), current);
 		}
-
+		if (depth % 2 != 0) {
+			int bestScore = Integer.MIN_VALUE;
+			for (ImprovedMove m : gameState.getBoard().getValidMoves(current)) {
+				bestScore = Math.max(scoreByMiniMax(gameState.getNextState(m), depth - 1), bestScore);
+			}
+			return bestScore;
+		} else {
+			int worstScore = Integer.MAX_VALUE;
+			for (ImprovedMove m : gameState.getBoard().getValidMoves(current)) {
+				worstScore = Math.min(scoreByMiniMax(gameState.getNextState(m), depth - 1), worstScore);
+			}
+			return worstScore;
+		}
 	}
 }

@@ -5,7 +5,7 @@ import chaumette.othello.util.PlayerColor;
 import chaumette.othello.util.board.OthelloBoard;
 import chaumette.othello.util.board.OthelloOneDimArrayBoard;
 import chaumette.othello.util.players.ai.GreedyLimitMoveAI;
-import chaumette.othello.util.players.ai.RandomAI;
+import chaumette.othello.util.players.ai.MiniMaxAI;
 import chaumette.othello.util.players.human.GUIPlayer;
 import javafx.application.Application;
 import javafx.concurrent.Task;
@@ -27,8 +27,8 @@ import static chaumette.othello.util.PlayerColor.WHITE;
  */
 public class OthelloMain extends Application {
 
-	private final long timeBlack = 8000;
-	private final long timeWhite = 8000;
+	private long timeBlack = 8000;
+	private long timeWhite = 8000;
 	private final OthelloBoard theBoard = new OthelloOneDimArrayBoard();
 	private final Random random = new Random();
 
@@ -58,7 +58,7 @@ public class OthelloMain extends Application {
 		theGUI.initUI();
 		theGUI.displayBoardState(theBoard);
 
-		playerWhite = new RandomAI();
+		playerWhite = new MiniMaxAI();
 		playerBlack = new GreedyLimitMoveAI();
 		//playerWhite = new GUIPlayer(theGUI);
 
@@ -76,6 +76,8 @@ public class OthelloMain extends Application {
 			protected PlayerColor call() {
 				int turnCount = 0;
 				theGUI.displayMessage("Welcome to Othello!");
+				long delta = 0;
+				long startTime = 0;
 				while (!theBoard.isGameOver()) {
 					theGUI.displayBoardState(theBoard);
 					theGUI.displayValidMoves(theBoard.getValidMoves(currentPlayerColor), currentPlayerColor);
@@ -98,13 +100,27 @@ public class OthelloMain extends Application {
 					turnCount++;
 
 					if (theBoard.canDoValidMove(currentPlayerColor)) {
+						startTime = System.currentTimeMillis();
 						prevMove = colorToPlayer.get(currentPlayerColor).nextMove(prevMove, opponentTime, selfTime);
+						delta = System.currentTimeMillis() - startTime;
 						if (prevMove != null) {
 							theBoard.doMove(prevMove, currentPlayerColor);
 						}
 					} else {
+						startTime = System.currentTimeMillis();
 						prevMove = colorToPlayer.get(currentPlayerColor).nextMove(prevMove, opponentTime, selfTime);
+						delta = System.currentTimeMillis() - startTime;
 						//expecting null move
+					}
+					switch (currentPlayerColor) {
+						case WHITE -> {
+							timeWhite -= delta;
+							System.out.println("Time remaining for white: " + timeWhite);
+						}
+						case BLACK -> {
+							timeBlack -= delta;
+							System.out.println("Time remaining for black: " + timeBlack);
+						}
 					}
 					nextPlayer();
 				}
