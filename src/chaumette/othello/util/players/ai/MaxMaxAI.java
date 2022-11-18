@@ -5,8 +5,9 @@
 package chaumette.othello.util.players.ai;
 
 
-import chaumette.othello.external.Move;
-import chaumette.othello.external.Player;
+import szte.mi.Move;
+import szte.mi.Player;
+import chaumette.othello.util.Constants;
 import chaumette.othello.util.ImprovedMove;
 import chaumette.othello.util.PlayerColor;
 import chaumette.othello.util.board.improved.ImprovedOthelloBoard;
@@ -42,6 +43,7 @@ public class MaxMaxAI implements Player {
 		}
 		this.theRandom = rnd;
 		initTree();
+		isFirstTurn = true;
 	}
 
 	private void initTree() {
@@ -55,21 +57,27 @@ public class MaxMaxAI implements Player {
 	public Move nextMove(Move prevMove, long tOpponent, long t) {
 		if (prevMove != null) { //simulate Opponent Move
 			ImprovedMove opponentMove = new ImprovedMove(prevMove, opponentPlayerColor);
-			rootNode = rootNode.getPossibleNextStates().get(opponentMove);
+			rootNode = rootNode.getNextState(opponentMove);
 		} else if (myPlayerColor == PlayerColor.WHITE || !isFirstTurn) {
 			//if we are BLACK (starting) and it's the first turn, ignore
 			//else, simulate opponent passing the turn in our game tree
-			rootNode = rootNode.getPossibleNextStates().get(null);
+			rootNode = rootNode.getNextState(null);
 		}
 		rootNode.populateMoveMap(search_depth);
-		int score = Integer.MIN_VALUE;
-		Move toMake = rootNode.getPossibleNextStates().firstKey();
-		for (Move move : rootNode.getPossibleNextStates().keySet()) {
-			if (scoreByMaxMax())
+
+		try {
+			//Simulate AI thinking
+			Thread.sleep(Constants.MOVE_DELAY);
+		} catch (InterruptedException e) {
+			throw new RuntimeException(e);
 		}
 
 		//TODO apply maxmax on the tree
 		//TODO simulate the move
+
+		if (isFirstTurn) { // if we are in first turn, set marker to false
+			isFirstTurn = false;
+		}
 		//TODO return the move
 	}
 
@@ -92,6 +100,7 @@ public class MaxMaxAI implements Player {
 			}
 		}
 		for (ImprovedMove m : gameState.getBoard().getValidMoves(gameState.getCurrentPlayerColor())) {
+			//TODO actually score by MaxMax
 			//if scoreState of the state after the move is better
 			//save the new score for returning
 		}

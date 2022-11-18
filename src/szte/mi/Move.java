@@ -16,7 +16,7 @@
  *
  */
 
-package chaumette.othello.external;
+package szte.mi;
 
 /**
  * Represents a move in the game. It is a constant class.

@@ -4,12 +4,12 @@
 
 package chaumette.othello.util.players.ai;
 
-import chaumette.othello.external.Move;
-import chaumette.othello.external.Player;
 import chaumette.othello.util.Constants;
 import chaumette.othello.util.PlayerColor;
 import chaumette.othello.util.board.OthelloBoard;
 import chaumette.othello.util.board.OthelloOneDimArrayBoard;
+import szte.mi.Move;
+import szte.mi.Player;
 
 import java.util.ArrayList;
 import java.util.Random;

@@ -4,9 +4,9 @@
 
 package chaumette.othello.util.board;
 
-import chaumette.othello.external.Move;
 import chaumette.othello.util.InvalidMoveException;
 import chaumette.othello.util.PlayerColor;
+import szte.mi.Move;
 
 import java.util.ArrayList;
 import java.util.HashSet;

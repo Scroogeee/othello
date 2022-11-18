@@ -4,7 +4,6 @@
 
 package chaumette.othello.gui;
 
-import chaumette.othello.external.Move;
 import chaumette.othello.util.PlayerColor;
 import chaumette.othello.util.board.OthelloBoard;
 import javafx.application.Platform;
@@ -17,6 +16,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
+import szte.mi.Move;
 
 import java.util.Set;
 

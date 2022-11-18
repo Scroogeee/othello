@@ -8,8 +8,7 @@ import chaumette.othello.util.ImprovedMove;
 import chaumette.othello.util.PlayerColor;
 import chaumette.othello.util.board.improved.ImprovedOthelloBoard;
 
-import java.util.Comparator;
-import java.util.TreeMap;
+import java.util.HashMap;
 
 /**
  * Contains an Othello Game tree node
@@ -18,9 +17,7 @@ public class OthelloBoardTreeNode {
 
 	private final PlayerColor currentPlayerColor;
 	private final ImprovedOthelloBoard currentBoard;
-	//TODO check if still throwing nullpointers
-	private final TreeMap<ImprovedMove, OthelloBoardTreeNode> possibleNextStates =
-			new TreeMap<>(Comparator.nullsFirst(Comparator.naturalOrder()));
+	private final HashMap<ImprovedMove, OthelloBoardTreeNode> possibleNextStates = new HashMap<>();
 
 	public OthelloBoardTreeNode(ImprovedOthelloBoard currentBoard, PlayerColor currentPlayerColor) {
 		this.currentBoard = currentBoard;
@@ -45,8 +42,7 @@ public class OthelloBoardTreeNode {
 	 * @return the possibleNextStates
 	 */
 	public OthelloBoardTreeNode getNextState(ImprovedMove m) {
-		return possibleNextStates.getOrDefault(m, new OthelloBoardTreeNode(currentBoard, PlayerColor.invert(currentPlayerColor)));
-
+		return possibleNextStates.get(m);
 	}
 
 	@Override
@@ -55,10 +51,10 @@ public class OthelloBoardTreeNode {
 	}
 
 	public void populateMoveMap(int searchDepth) {
-		PlayerColor nextPlayerColor = PlayerColor.invert(currentPlayerColor);
 		if (searchDepth == 0) {
 			return;
 		}
+		PlayerColor nextPlayerColor = PlayerColor.invert(currentPlayerColor);
 		for (ImprovedMove move : currentBoard.getValidMoves(currentPlayerColor)) {
 			if (!possibleNextStates.containsKey(move)) { // if we don't already know the board state
 				OthelloBoardTreeNode node = new OthelloBoardTreeNode(currentBoard.simulate(move), nextPlayerColor);

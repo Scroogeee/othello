@@ -4,9 +4,9 @@
 
 package chaumette.othello.gui;
 
-import chaumette.othello.external.Move;
 import chaumette.othello.util.PlayerColor;
 import chaumette.othello.util.board.OthelloBoard;
+import szte.mi.Move;
 
 import java.util.Scanner;
 import java.util.Set;

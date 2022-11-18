@@ -9,8 +9,7 @@ import chaumette.othello.util.InvalidMoveException;
 import chaumette.othello.util.PlayerColor;
 
 import java.util.ArrayList;
-import java.util.SortedSet;
-import java.util.TreeSet;
+import java.util.HashSet;
 
 import static chaumette.othello.util.Constants.BOARD_SIZE;
 import static chaumette.othello.util.Constants.NUM_DIRECTIONS;
@@ -57,7 +56,7 @@ public abstract class ImprovedOthelloBoard {
 	 * @param m the Move to do
 	 */
 	public final void doMove(ImprovedMove m) {
-		SortedSet<ImprovedMove> toFlip = getSideEffects(m);
+		HashSet<ImprovedMove> toFlip = getSideEffects(m);
 		if (isValidMove(m)) {
 			setCell(m);
 			switch (m.getMadeBy()) {
@@ -96,8 +95,8 @@ public abstract class ImprovedOthelloBoard {
 	 * @param c the current player color
 	 * @return all valid moves for the given player
 	 */
-	public final SortedSet<ImprovedMove> getValidMoves(PlayerColor c) {
-		SortedSet<ImprovedMove> validMoves = new TreeSet<>();
+	public final HashSet<ImprovedMove> getValidMoves(PlayerColor c) {
+		HashSet<ImprovedMove> validMoves = new HashSet<>();
 		for (int i = 0; i < BOARD_SIZE; i++) {
 			for (int j = 0; j < BOARD_SIZE; j++) {
 				ImprovedMove move = new ImprovedMove(i, j, c);
@@ -138,7 +137,7 @@ public abstract class ImprovedOthelloBoard {
 	 *
 	 * @param sideEffects a set of all cells which should be flipped
 	 */
-	protected final void flipColorOfCells(SortedSet<ImprovedMove> sideEffects) {
+	protected final void flipColorOfCells(HashSet<ImprovedMove> sideEffects) {
 		for (ImprovedMove move : sideEffects) {
 			switch (getCellColor(move)) {
 				case BLACK -> {
@@ -206,8 +205,8 @@ public abstract class ImprovedOthelloBoard {
 	 * @return a Set of all the side effect (aka flipping stones)
 	 * a Move would have. If its size is 0, the move is invalid.
 	 */
-	protected SortedSet<ImprovedMove> getSideEffects(ImprovedMove m) {
-		SortedSet<ImprovedMove> sideEffects = new TreeSet<>();
+	protected HashSet<ImprovedMove> getSideEffects(ImprovedMove m) {
+		HashSet<ImprovedMove> sideEffects = new HashSet<>();
 		ImprovedMove[][] projections = new ImprovedMove[NUM_DIRECTIONS][];
 		int counter = 0;
 		for (int xStep = -1; xStep <= 1; xStep++) {
@@ -220,7 +219,7 @@ public abstract class ImprovedOthelloBoard {
 			}
 		}
 		for (ImprovedMove[] projection : projections) {
-			SortedSet<ImprovedMove> potentialSideEffects = new TreeSet<>();
+			HashSet<ImprovedMove> potentialSideEffects = new HashSet<>();
 			boolean isValidProjectionEnd = false;
 			for (int i = 1; i < projection.length; i++) {
 				if (getCellColor(projection[i]) == PlayerColor.EMPTY) {

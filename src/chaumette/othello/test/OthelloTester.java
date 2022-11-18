@@ -4,11 +4,11 @@
 
 package chaumette.othello.test;
 
-import chaumette.othello.external.Move;
 import chaumette.othello.util.Constants;
 import chaumette.othello.util.PlayerColor;
 import chaumette.othello.util.board.OthelloBoard;
 import chaumette.othello.util.board.OthelloOneDimArrayBoard;
+import szte.mi.Move;
 
 import java.util.*;
 

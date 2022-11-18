@@ -4,7 +4,7 @@
 
 package chaumette.othello.util;
 
-import chaumette.othello.external.Move;
+import szte.mi.Move;
 
 /**
  * Constants and utility methods
@@ -28,7 +28,7 @@ public class Constants {
 	/**
 	 * Delay used for AIs to simulate thinking
 	 */
-	public static final long MOVE_DELAY = 100;
+	public static final long MOVE_DELAY = 0;
 
 	/**
 	 * Converts data of a Move into a human-readable String representation

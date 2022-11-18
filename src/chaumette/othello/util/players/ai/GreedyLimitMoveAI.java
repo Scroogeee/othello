@@ -5,17 +5,17 @@
 package chaumette.othello.util.players.ai;
 
 
-import chaumette.othello.external.Move;
-import chaumette.othello.external.Player;
 import chaumette.othello.util.Constants;
 import chaumette.othello.util.ImprovedMove;
 import chaumette.othello.util.PlayerColor;
 import chaumette.othello.util.board.improved.ImprovedOthelloBoard;
 import chaumette.othello.util.board.improved.ImprovedOthelloOneDimArrayBoard;
 import chaumette.othello.util.board.tree.OthelloBoardTreeNode;
+import szte.mi.Move;
+import szte.mi.Player;
 
+import java.util.HashSet;
 import java.util.Random;
-import java.util.SortedSet;
 
 /**
  * This AI always makes the move which leads to the least
@@ -27,7 +27,7 @@ public class GreedyLimitMoveAI implements Player {
 	private PlayerColor myPlayerColor;
 	private PlayerColor opponentPlayerColor;
 	private Random theRandom;
-	private boolean isFirstTurn = true;
+	private boolean isFirstTurn;
 
 	@Override
 	public void init(int order, long t, Random rnd) {
@@ -42,6 +42,7 @@ public class GreedyLimitMoveAI implements Player {
 			}
 		}
 		this.theRandom = rnd;
+		isFirstTurn = true;
 		ImprovedOthelloOneDimArrayBoard mentalBoardModel = new ImprovedOthelloOneDimArrayBoard();
 		mentalBoardModel.resetAndInit();
 		rootNode = new OthelloBoardTreeNode(mentalBoardModel, PlayerColor.BLACK);
@@ -68,11 +69,9 @@ public class GreedyLimitMoveAI implements Player {
 			throw new RuntimeException(e);
 		}
 
-		SortedSet<ImprovedMove> validMoves = rootNode.getBoard().getValidMoves(myPlayerColor);
-		if (validMoves.isEmpty()) {
-			validMoves.add(null);
-		}
-		ImprovedMove toMake = validMoves.first();
+		HashSet<ImprovedMove> validMoves = rootNode.getBoard().getValidMoves(myPlayerColor);
+
+		ImprovedMove toMake = null;
 		int bestScore = Integer.MIN_VALUE;
 		for (ImprovedMove move : validMoves) {
 			int tempScore = scoreMyState(rootNode.getNextState(move).getBoard());
@@ -81,6 +80,7 @@ public class GreedyLimitMoveAI implements Player {
 				bestScore = tempScore;
 			}
 		}
+
 		//update our mental model
 		rootNode = rootNode.getNextState(toMake);
 
@@ -89,7 +89,10 @@ public class GreedyLimitMoveAI implements Player {
 		}
 		//calculate what the opponent can do
 		rootNode.populateMoveMap(1);
+
 		return toMake;
+
+
 	}
 
 	private int scoreMyState(ImprovedOthelloBoard boardState) {

@@ -1,16 +1,17 @@
 package chaumette.othello;
 
-import chaumette.othello.external.Move;
-import chaumette.othello.external.Player;
 import chaumette.othello.gui.OthelloGUI;
 import chaumette.othello.util.PlayerColor;
 import chaumette.othello.util.board.OthelloBoard;
 import chaumette.othello.util.board.OthelloOneDimArrayBoard;
 import chaumette.othello.util.players.ai.GreedyLimitMoveAI;
+import chaumette.othello.util.players.ai.RandomAI;
 import chaumette.othello.util.players.human.GUIPlayer;
 import javafx.application.Application;
 import javafx.concurrent.Task;
 import javafx.stage.Stage;
+import szte.mi.Move;
+import szte.mi.Player;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -57,9 +58,9 @@ public class OthelloMain extends Application {
 		theGUI.initUI();
 		theGUI.displayBoardState(theBoard);
 
+		playerWhite = new RandomAI();
 		playerBlack = new GreedyLimitMoveAI();
-		//playerWhite = new RandomAI();
-		playerWhite = new GreedyLimitMoveAI();
+		//playerWhite = new GUIPlayer(theGUI);
 
 		colorToPlayer.put(BLACK, playerBlack);
 		colorToPlayer.put(WHITE, playerWhite);

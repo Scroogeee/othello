@@ -4,9 +4,11 @@
 
 package chaumette.othello.util;
 
-import chaumette.othello.external.Move;
+import szte.mi.Move;
 
-public class ImprovedMove extends Move implements Comparable<Move> {
+import java.util.Objects;
+
+public class ImprovedMove extends Move {
 
 	private final PlayerColor madeBy;
 
@@ -44,25 +46,13 @@ public class ImprovedMove extends Move implements Comparable<Move> {
 		return false;
 	}
 
-
-	@Override
-	public int compareTo(Move o) {
-		if (o != null) {
-			if (o.x > x || o.x < x) {
-				return o.x - x;
-			} else {
-				if (o.y > y || o.y < y) {
-					return o.y - y;
-				} else {
-					return 0;
-				}
-			}
-		}
-		throw new NullPointerException("Move was null!");
-	}
-
 	@Override
 	public String toString() {
 		return "[x:" + x + ", y:" + y + ", p:" + madeBy + "]";
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(x, y, madeBy);
 	}
 }

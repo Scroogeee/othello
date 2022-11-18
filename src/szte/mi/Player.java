@@ -16,7 +16,7 @@
  *
  */
 
-package chaumette.othello.external;
+package szte.mi;
 
 /**
  * The interface the player has to implement.
