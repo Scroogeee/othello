@@ -68,6 +68,7 @@ public abstract class ImprovedOthelloBoard {
 		} else {
 			System.out.println("Move " + m.x + "/" + m.y + " for Player " + m.getMadeBy().ordinal() +
 					" is invalid." + "\n" + "Board state is \n" + this);
+			System.out.println("(Improved OthelloBoard)");
 			throw new InvalidMoveException("Invalid move");
 		}
 	}
@@ -252,6 +253,7 @@ public abstract class ImprovedOthelloBoard {
 
 	/**
 	 * Returns a copy of this board with the simulated move played, or null if move is invalid
+	 * passing null returns the same board
 	 */
 	public abstract ImprovedOthelloBoard simulate(ImprovedMove move);
 }

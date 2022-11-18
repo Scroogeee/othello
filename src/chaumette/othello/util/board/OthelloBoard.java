@@ -68,6 +68,7 @@ public abstract class OthelloBoard {
 			flipColorOfCells(toFlip);
 		} else {
 			System.out.println("Move " + m.x + "/" + m.y + " for Player " + c.ordinal() + " is invalid." + "\n" + "Board state is \n" + this);
+			System.out.println("(Normal OthelloBoard)");
 			throw new InvalidMoveException("Invalid move");
 		}
 	}
@@ -93,6 +94,8 @@ public abstract class OthelloBoard {
 	}
 
 	/**
+	 * If no moves are valid, returns an empty Set
+	 *
 	 * @param c the current player color
 	 * @return all valid moves for the given player
 	 */

@@ -1,9 +1,12 @@
 package chaumette.othello.util;
 
+import java.util.Map;
+
 /**
  * Enum used to specify what a cell of the game grid currently holds
  */
 public enum PlayerColor {
+
 	/**
 	 * Board cell is empty
 	 */
@@ -23,5 +26,17 @@ public enum PlayerColor {
 	/**
 	 * Used to display a possible move for player white
 	 */
-	POSSIBLE_WHITE
+	POSSIBLE_WHITE;
+
+	private static final Map<PlayerColor, PlayerColor> inverses = Map.of(
+			EMPTY, EMPTY,
+			BLACK, WHITE,
+			WHITE, BLACK,
+			POSSIBLE_BLACK, POSSIBLE_WHITE,
+			POSSIBLE_WHITE, POSSIBLE_BLACK
+	);
+
+	public static PlayerColor invert(PlayerColor c) {
+		return inverses.get(c);
+	}
 }

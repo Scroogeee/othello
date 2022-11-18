@@ -7,7 +7,6 @@ import chaumette.othello.util.PlayerColor;
 import chaumette.othello.util.board.OthelloBoard;
 import chaumette.othello.util.board.OthelloOneDimArrayBoard;
 import chaumette.othello.util.players.ai.GreedyLimitMoveAI;
-import chaumette.othello.util.players.ai.RandomAI;
 import chaumette.othello.util.players.human.GUIPlayer;
 import javafx.application.Application;
 import javafx.concurrent.Task;
@@ -58,7 +57,8 @@ public class OthelloMain extends Application {
 		theGUI.initUI();
 		theGUI.displayBoardState(theBoard);
 
-		playerBlack = new RandomAI();
+		playerBlack = new GreedyLimitMoveAI();
+		//playerWhite = new RandomAI();
 		playerWhite = new GreedyLimitMoveAI();
 
 		colorToPlayer.put(BLACK, playerBlack);
@@ -73,6 +73,7 @@ public class OthelloMain extends Application {
 		Task<PlayerColor> gameLoop = new Task<>() {
 			@Override
 			protected PlayerColor call() {
+				int turnCount = 0;
 				theGUI.displayMessage("Welcome to Othello!");
 				while (!theBoard.isGameOver()) {
 					theGUI.displayBoardState(theBoard);
@@ -91,6 +92,9 @@ public class OthelloMain extends Application {
 							opponentTime = timeBlack;
 						}
 					}
+
+
+					turnCount++;
 
 					if (theBoard.canDoValidMove(currentPlayerColor)) {
 						prevMove = colorToPlayer.get(currentPlayerColor).nextMove(prevMove, opponentTime, selfTime);
@@ -138,9 +142,6 @@ public class OthelloMain extends Application {
 	 * Switches to the next player (based on the current one)
 	 */
 	public void nextPlayer() {
-		switch (currentPlayerColor) {
-			case BLACK -> currentPlayerColor = WHITE;
-			case WHITE -> currentPlayerColor = BLACK;
-		}
+		currentPlayerColor = PlayerColor.invert(currentPlayerColor);
 	}
 }

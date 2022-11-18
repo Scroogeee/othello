@@ -61,7 +61,9 @@ public class ImprovedOthelloOneDimArrayBoard extends ImprovedOthelloBoard {
 	@Override
 	public ImprovedOthelloBoard simulate(ImprovedMove move) {
 		ImprovedOthelloBoard toReturn = new ImprovedOthelloOneDimArrayBoard(data);
-		toReturn.doMove(move);
+		if (move != null) {
+			toReturn.doMove(move);
+		}
 		return toReturn;
 	}
 }
