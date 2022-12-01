@@ -80,7 +80,7 @@ public class RandomAI implements Player {
 		Move toMake = possibleMoves.get(theRandom.nextInt(possibleMoves.size()));
 		mentalBoardModel.doMove(toMake, myPlayerColor);
 		if (writeLog) {
-			System.out.println("Player " + myPlayerColor.ordinal() + " doing move: " + Constants.moveToString(toMake));
+			System.out.println("Player " + myPlayerColor + " doing move: " + Constants.moveToString(toMake));
 			System.out.println("Current board state:");
 			System.out.println(mentalBoardModel);
 		}

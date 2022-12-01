@@ -37,6 +37,31 @@ public enum PlayerColor {
 	);
 
 	public static PlayerColor invert(PlayerColor c) {
-		return inverses.get(c);
+		if (c != null) {
+			return inverses.get(c);
+		}
+		return null;
+	}
+
+	@Override
+	public String toString() {
+		switch (this) {
+			case EMPTY -> {
+				return ".";
+			}
+			case BLACK -> {
+				return "X";
+			}
+			case WHITE -> {
+				return "O";
+			}
+			case POSSIBLE_BLACK -> {
+				return "(X)";
+			}
+			case POSSIBLE_WHITE -> {
+				return "(O)";
+			}
+		}
+		return "";
 	}
 }

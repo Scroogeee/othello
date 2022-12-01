@@ -5,7 +5,6 @@
 package chaumette.othello.util.players.ai;
 
 
-import chaumette.othello.util.Constants;
 import chaumette.othello.util.ImprovedMove;
 import chaumette.othello.util.PlayerColor;
 import chaumette.othello.util.board.improved.ImprovedOthelloBoard;
@@ -62,24 +61,9 @@ public class GreedyLimitMoveAI implements Player {
 		}
 		//calculate what we can do
 		rootNode.populateMoveMap(1);
-		try {
-			//Simulate AI thinking
-			Thread.sleep(Constants.MOVE_DELAY);
-		} catch (InterruptedException e) {
-			throw new RuntimeException(e);
-		}
 
-		HashSet<ImprovedMove> validMoves = rootNode.getBoard().getValidMoves(myPlayerColor);
 
-		ImprovedMove toMake = null;
-		int bestScore = Integer.MIN_VALUE;
-		for (ImprovedMove move : validMoves) {
-			int tempScore = scoreMyState(rootNode.getNextState(move).getBoard());
-			if (tempScore > bestScore) {
-				toMake = move;
-				bestScore = tempScore;
-			}
-		}
+		ImprovedMove toMake = makeGreedyDecision();
 
 		//update our mental model
 		rootNode = rootNode.getNextState(toMake);
@@ -93,6 +77,22 @@ public class GreedyLimitMoveAI implements Player {
 		return toMake;
 
 
+	}
+
+	private ImprovedMove makeGreedyDecision() {
+		HashSet<ImprovedMove> validMoves = rootNode.getBoard().getValidMoves(myPlayerColor);
+
+		ImprovedMove toMake = null;
+		int tempScore;
+		int bestScore = Integer.MIN_VALUE;
+		for (ImprovedMove move : validMoves) {
+			tempScore = scoreMyState(rootNode.getNextState(move).getBoard());
+			if (tempScore > bestScore) {
+				toMake = move;
+				bestScore = tempScore;
+			}
+		}
+		return toMake;
 	}
 
 	private int scoreMyState(ImprovedOthelloBoard boardState) {

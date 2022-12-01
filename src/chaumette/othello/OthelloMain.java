@@ -1,6 +1,7 @@
 package chaumette.othello;
 
 import chaumette.othello.gui.OthelloGUI;
+import chaumette.othello.util.Constants;
 import chaumette.othello.util.PlayerColor;
 import chaumette.othello.util.board.OthelloBoard;
 import chaumette.othello.util.board.OthelloOneDimArrayBoard;
@@ -60,6 +61,7 @@ public class OthelloMain extends Application {
 
 		playerWhite = new MiniMaxAI();
 		playerBlack = new GreedyLimitMoveAI();
+		//playerBlack = new GreedyLimitMoveAI();
 		//playerWhite = new GUIPlayer(theGUI);
 
 		colorToPlayer.put(BLACK, playerBlack);
@@ -123,6 +125,11 @@ public class OthelloMain extends Application {
 						}
 					}
 					nextPlayer();
+					try {
+						Thread.sleep(Constants.MOVE_DELAY);
+					} catch (InterruptedException e) {
+						throw new RuntimeException(e);
+					}
 				}
 				theGUI.displayBoardState(theBoard);
 				System.out.println(theBoard);

@@ -242,7 +242,7 @@ public abstract class ImprovedOthelloBoard {
 		StringBuilder representation = new StringBuilder();
 		for (int i = 0; i < BOARD_SIZE; i++) {
 			for (int j = 0; j < BOARD_SIZE; j++) {
-				representation.append(getCellColor(j, i).ordinal()).append("\t");
+				representation.append(getCellColor(j, i)).append("\t");
 			}
 			representation.append("\n");
 		}
