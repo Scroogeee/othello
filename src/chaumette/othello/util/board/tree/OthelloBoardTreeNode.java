@@ -79,14 +79,12 @@ public class OthelloBoardTreeNode {
 		}
 
 		if (possibleNextStates.isEmpty()) {
-			System.out.println("No valid moves!!");
 			if (!possibleNextStates.containsKey(null)) { // if we don't already know the board state
 				OthelloBoardTreeNode node = new OthelloBoardTreeNode(currentBoard, nextPlayerColor);
 				possibleNextStates.put(null, node);
 				node.populateMoveMap(searchDepth - 1);
 			} else {
 				// if we know the board state continue there
-				System.out.println("Trying using existing");
 				possibleNextStates.get(null).populateMoveMap(searchDepth - 1);
 
 			}
